@@ -3,7 +3,8 @@ import Home from "./pages/Home";
 import Header from "./Components/Header";
 import About from "./pages/About";
 import Children from "./pages/Children";
-import GalleryPage from "./pages/Gallerypage";
+import GalleryPage from "./pages/GalleryPage";
+
 import FullGalleryPage from "./pages/FullGalleryPage";
 import LeadershipLineage from "./pages/LeadershipLineage";
 import Contact from "./pages/Contact";
