@@ -3,7 +3,6 @@ import Home from "./pages/Home";
 import Header from "./Components/Header";
 import About from "./pages/About";
 import Children from "./pages/Children";
-import GalleryPage from "./pages/GalleryPage";
 
 import FullGalleryPage from "./pages/FullGalleryPage";
 import LeadershipLineage from "./pages/LeadershipLineage";
@@ -12,6 +11,8 @@ import { useState } from "react";
 import DonateModal from "./Components/DonateModal";
 import VolunteerModal from "./Components/VolunteerModal";
 import OfferMealModal from "./Components/OfferMealModal";
+import Footer from "./Components/Footer";
+import GalleryPage from "./pages/Gallerypage";
 export default function App() {
     const [modal, setModal] = useState(null);
   return (
@@ -25,14 +26,14 @@ export default function App() {
       <section id="leadership Lineage"
 ><LeadershipLineage/></section>
       <section id="children"><Children /></section>
-      <section id="gallery"><GalleryPage /></section>
+      <section id="gallery"><GalleryPage/></section>
     
       {/* Full Gallery Route */}
       <Routes>
         <Route path="/gallery" element={<FullGalleryPage />} />
       </Routes>
         <section id="contact"><Contact /></section>
-
+<Footer/>
   {/* 🎉 Render Modal Dynamically */}
       {modal === "donate" && <DonateModal close={() => setModal(null)} />}
       {modal === "volunteer" && <VolunteerModal close={() => setModal(null)} />}

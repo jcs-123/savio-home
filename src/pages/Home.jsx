@@ -37,7 +37,7 @@ const slideContent = [
 const styles = {
   // Hero Section
   heroSection: {
-    marginTop: "-35px",
+    marginTop: "0",
     position: "relative",
   },
 
@@ -183,6 +183,12 @@ const styles = {
 
 // ---------------- PROFESSIONAL CSS ----------------
 const professionalCSS = `
+/* Global Reset for Mobile */
+body {
+  margin: 0;
+  padding: 0;
+}
+
 /* Animations */
 @keyframes fadeInUp {
   from {
@@ -277,34 +283,126 @@ const professionalCSS = `
   animation: pulse 2s infinite;
 }
 
-/* Responsive Design */
-@media (max-width: 1200px) {
-  #home-title { font-size: 3rem !important; }
-}
-
-@media (max-width: 992px) {
-  #home-title { font-size: 2.5rem !important; }
-  #home-subtitle { font-size: 1.1rem !important; }
-}
-
+/* Mobile-First Responsive Design */
 @media (max-width: 768px) {
-  #home-title { font-size: 2.2rem !important; }
-  #home-subtitle { font-size: 1rem !important; margin-bottom: 2rem !important; }
-  .home-btn { padding: 12px 30px !important; font-size: 15px !important; min-width: 160px !important; }
-  .carousel-control-prev, .carousel-control-next { display: none !important; }
+  #home {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+  }
+  
+  .carousel {
+    margin-top: 0 !important;
+  }
+  
+  .carousel-item {
+    min-height: 100vh !important;
+  }
+  
+  .carousel .slide {
+    min-height: 100vh !important;
+    padding-top: 0 !important;
+  }
+  
+  #home-title { 
+    font-size: 2rem !important; 
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+  }
+  
+  #home-subtitle { 
+    font-size: 1rem !important; 
+    margin-bottom: 2rem !important; 
+  }
+  
+  .home-btn { 
+    padding: 12px 25px !important; 
+    font-size: 14px !important; 
+    min-width: 140px !important; 
+  }
+  
+  .carousel-control-prev, 
+  .carousel-control-next { 
+    display: none !important; 
+  }
+  
+  .carousel-indicators {
+    margin-bottom: 1rem !important;
+  }
+  
+  /* Ensure content starts from top on mobile */
+  .carousel .slide > div {
+    padding-top: 0 !important;
+    margin-top: 0 !important;
+  }
 }
 
 @media (max-width: 576px) {
-  #home-title { font-size: 1.8rem !important; }
-  #home-subtitle { font-size: 0.95rem !important; }
-  .home-btn { padding: 10px 25px !important; font-size: 14px !important; min-width: 140px !important; }
-  .btn-row { gap: 1rem !important; }
+  #home-title { 
+    font-size: 1.8rem !important; 
+    margin-top: 0 !important;
+  }
+  
+  #home-subtitle { 
+    font-size: 0.9rem !important; 
+  }
+  
+  .home-btn { 
+    padding: 10px 20px !important; 
+    font-size: 13px !important; 
+    min-width: 130px !important; 
+  }
+  
+  .btn-row { 
+    gap: 0.8rem !important; 
+  }
+  
+  .carousel-item {
+    min-height: 100vh !important;
+  }
 }
 
 @media (max-width: 420px) {
-  #home-title { font-size: 1.6rem !important; }
-  #home-subtitle { font-size: 0.9rem !important; }
-  .home-btn { padding: 8px 20px !important; font-size: 13px !important; min-width: 130px !important; }
+  #home-title { 
+    font-size: 1.6rem !important; 
+  }
+  
+  #home-subtitle { 
+    font-size: 0.85rem !important; 
+  }
+  
+  .home-btn { 
+    padding: 8px 16px !important; 
+    font-size: 12px !important; 
+    min-width: 120px !important; 
+  }
+  
+  .carousel-item {
+    min-height: 100vh !important;
+  }
+}
+
+/* Extra small devices */
+@media (max-width: 360px) {
+  .carousel-item {
+    min-height: 100vh !important;
+  }
+  
+  #home-title {
+    font-size: 1.5rem !important;
+  }
+}
+
+/* Fix for very small heights */
+@media (max-height: 700px) {
+  .carousel-item {
+    min-height: 100vh !important;
+    padding: 20px 0 !important;
+  }
+  
+  .slide {
+    align-items: flex-start !important;
+    padding-top: 20px !important;
+  }
 }
 `;
 
@@ -325,6 +423,31 @@ export default function Home() {
   const handleSelect = (selectedIndex) => {
     setIndex(selectedIndex);
   };
+  const useCountUp = (end, duration = 2000) => {
+    const [value, setValue] = useState(0);
+
+    useEffect(() => {
+      let startTime;
+      const step = (timestamp) => {
+        if (!startTime) startTime = timestamp;
+        const progress = timestamp - startTime;
+        const percentage = Math.min(progress / duration, 1);
+        setValue(Math.floor(percentage * end));
+
+        if (progress < duration) {
+          requestAnimationFrame(step);
+        }
+      };
+      requestAnimationFrame(step);
+    }, [end, duration]);
+
+    return value;
+  };
+
+  // 2️⃣ Now you can safely call the hook
+  const childrenHelped = useCountUp(1300, 2000);
+  const yearsService = useCountUp(50, 1800);
+  const directorsServed = useCountUp(15, 1800);
 
   return (
     <>
@@ -385,34 +508,81 @@ export default function Home() {
                           {slideContent[index].button2}
                         </Button>
                       </div>
+{/* Quick Stats - Minimal */}
+{/* Quick Stats - Animated Count-Up */}
+<Row className="mt-5">
 
-                      {/* Quick Stats */}
-                      <Row className="mt-5">
-                        <Col md={3} sm={6} className="mb-3">
-                          <div style={{ textAlign: "center" }}>
-                            <h3 style={{ fontSize: "2rem", fontWeight: "800", color: "#00eaff", marginBottom: "5px" }}>500+</h3>
-                            <p style={{ fontSize: "1rem", opacity: 0.9 }}>Children Helped</p>
-                          </div>
-                        </Col>
-                        <Col md={3} sm={6} className="mb-3">
-                          <div style={{ textAlign: "center" }}>
-                            <h3 style={{ fontSize: "2rem", fontWeight: "800", color: "#00eaff", marginBottom: "5px" }}>15+</h3>
-                            <p style={{ fontSize: "1rem", opacity: 0.9 }}>Years of Service</p>
-                          </div>
-                        </Col>
-                        <Col md={3} sm={6} className="mb-3">
-                          <div style={{ textAlign: "center" }}>
-                            <h3 style={{ fontSize: "2rem", fontWeight: "800", color: "#00eaff", marginBottom: "5px" }}>200+</h3>
-                            <p style={{ fontSize: "1rem", opacity: 0.9 }}>Successful Adoptions</p>
-                          </div>
-                        </Col>
-                        <Col md={3} sm={6} className="mb-3">
-                          <div style={{ textAlign: "center" }}>
-                            <h3 style={{ fontSize: "2rem", fontWeight: "800", color: "#00eaff", marginBottom: "5px" }}>50+</h3>
-                            <p style={{ fontSize: "1rem", opacity: 0.9 }}>Volunteers</p>
-                          </div>
-                        </Col>
-                      </Row>
+  <Col md={4} sm={6} className="mb-3">
+    <div style={{ textAlign: "center" }}>
+      <h3 style={{
+        fontSize: "2.5rem",
+        fontWeight: "800",
+        color: "#00eaff",
+        marginBottom: "8px",
+        textShadow: "0 4px 10px rgba(0, 234, 255, 0.3)"
+      }}>
+        {childrenHelped}+ 
+      </h3>
+      <p style={{
+        fontSize: "1rem",
+        color: "white",
+        fontWeight: "600",
+        margin: "0",
+        opacity: "0.9"
+      }}>
+        Children Helped
+      </p>
+    </div>
+  </Col>
+
+  <Col md={4} sm={6} className="mb-3">
+    <div style={{ textAlign: "center" }}>
+      <h3 style={{
+        fontSize: "2.5rem",
+        fontWeight: "800",
+        color: "#00eaff",
+        marginBottom: "8px",
+        textShadow: "0 4px 10px rgba(0, 234, 255, 0.3)"
+      }}>
+        {yearsService}+ 
+      </h3>
+      <p style={{
+        fontSize: "1rem",
+        color: "white",
+        fontWeight: "600",
+        margin: "0",
+        opacity: "0.9"
+      }}>
+        Years of Service
+      </p>
+    </div>
+  </Col>
+
+  <Col md={4} sm={6} className="mb-3">
+    <div style={{ textAlign: "center" }}>
+      <h3 style={{
+        fontSize: "2.5rem",
+        fontWeight: "800",
+        color: "#00eaff",
+        marginBottom: "8px",
+        textShadow: "0 4px 10px rgba(0, 234, 255, 0.3)"
+      }}>
+        {directorsServed}+ 
+      </h3>
+      <p style={{
+        fontSize: "1rem",
+        color: "white",
+        fontWeight: "600",
+        margin: "0",
+        opacity: "0.9"
+      }}>
+        Directors Served
+      </p>
+    </div>
+  </Col>
+
+</Row>
+
                     </Col>
                   </Row>
                 </Container>
@@ -464,161 +634,161 @@ export default function Home() {
         </Container>
       </section>
 
-    {/* DAILY LIFE SECTION */}
-<section style={{
-  padding: "80px 0",
-  backgroundColor: "#fffaf0",
-  background: "linear-gradient(135deg, #fffaf0 0%, #f0f8ff 100%)"
-}}>
-  <Container>
-    <Row className="align-items-center">
-      <Col lg={6} className="mb-4">
-        <h2 style={{ fontSize: "2.8rem", fontWeight: 800, color: "#00c4cc", marginBottom: "1.5rem" }}>
-          A Day at Savio Home,
-        </h2>
-        <p style={{ fontSize: "1.1rem", color: "#666", lineHeight: 1.7, marginBottom: "2rem" }}>
-          Our children follow a structured daily routine that balances education, play, creativity, and rest - 
-          creating a nurturing environment where they can thrive and grow.
-        </p>
-        
-        <div style={{ marginBottom: "2rem" }}>
-          <div style={{ display: "flex", alignItems: "center", marginBottom: "15px" }}>
-            <div style={{
-              width: "40px",
-              height: "40px",
-              background: "#00eaff",
-              borderRadius: "50%",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              color: "white",
-              fontWeight: "bold",
-              marginRight: "15px",
-              flexShrink: 0
-            }}>
-              1
-            </div>
-            <div>
-              <strong style={{ color: "#333" }}>Morning Routine</strong>
-              <div style={{ color: "#666" }}>Exercise, breakfast, and preparation for school</div>
-            </div>
-          </div>
-          
-          <div style={{ display: "flex", alignItems: "center", marginBottom: "15px" }}>
-            <div style={{
-              width: "40px",
-              height: "40px",
-              background: "#00eaff",
-              borderRadius: "50%",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              color: "white",
-              fontWeight: "bold",
-              marginRight: "15px",
-              flexShrink: 0
-            }}>
-              2
-            </div>
-            <div>
-              <strong style={{ color: "#333" }}>Education Time</strong>
-              <div style={{ color: "#666" }}>School classes and after-school tutoring</div>
-            </div>
-          </div>
-          
-          <div style={{ display: "flex", alignItems: "center", marginBottom: "15px" }}>
-            <div style={{
-              width: "40px",
-              height: "40px",
-              background: "#00eaff",
-              borderRadius: "50%",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              color: "white",
-              fontWeight: "bold",
-              marginRight: "15px",
-              flexShrink: 0
-            }}>
-              3
-            </div>
-            <div>
-              <strong style={{ color: "#333" }}>Creative Activities</strong>
-              <div style={{ color: "#666" }}>Art, music, sports, and skill development</div>
-            </div>
-          </div>
-          
-          <div style={{ display: "flex", alignItems: "center" }}>
-            <div style={{
-              width: "40px",
-              height: "40px",
-              background: "#00eaff",
-              borderRadius: "50%",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              color: "white",
-              fontWeight: "bold",
-              marginRight: "15px",
-              flexShrink: 0
-            }}>
-              4
-            </div>
-            <div>
-              <strong style={{ color: "#333" }}>Family Time</strong>
-              <div style={{ color: "#666" }}>Evening meals, storytelling, and bonding activities</div>
-            </div>
-          </div>
-        </div>
-      </Col>
-      
-      <Col lg={6}>
-        <div style={{
-          display: "grid",
-          gridTemplateColumns: "1fr 1fr",
-          gap: "15px"
-        }}>
-          <img 
-            src="https://i.pinimg.com/1200x/a5/78/79/a57879029195f32e7b493d8218ff362c.jpg" 
-            alt="Children studying" 
-            style={{ 
-              width: "100%", 
-              borderRadius: "10px",
-              boxShadow: "0 10px 25px rgba(0,0,0,0.1)"
-            }}
-          />
-          <img 
-            src="https://i.pinimg.com/736x/8d/6b/4f/8d6b4f321ef3eb04dfe9c1caad3bc6e1.jpg" 
-            alt="Children playing" 
-            style={{ 
-              width: "100%", 
-              borderRadius: "10px",
-              boxShadow: "0 10px 25px rgba(0,0,0,0.1)"
-            }}
-          />
-          <img 
-            src="https://i.pinimg.com/1200x/88/41/86/88418646ef28f7c937ececbb1ab26083.jpg" 
-            alt="Children eating" 
-            style={{ 
-              width: "100%", 
-              borderRadius: "10px",
-              boxShadow: "0 10px 25px rgba(0,0,0,0.1)"
-            }}
-          />
-          <img 
-            src="https://i.pinimg.com/1200x/c9/46/cc/c946ccfa78b91ef057b284889e5d628e.jpg" 
-            alt="Children activities" 
-            style={{ 
-              width: "100%", 
-              borderRadius: "10px",
-              boxShadow: "0 10px 25px rgba(0,0,0,0.1)"
-            }}
-          />
-        </div>
-      </Col>
-    </Row>
-  </Container>
-</section>
+      {/* DAILY LIFE SECTION */}
+      <section style={{
+        padding: "80px 0",
+        backgroundColor: "#fffaf0",
+        background: "linear-gradient(135deg, #fffaf0 0%, #f0f8ff 100%)"
+      }}>
+        <Container>
+          <Row className="align-items-center">
+            <Col lg={6} className="mb-4">
+              <h2 style={{ fontSize: "2.8rem", fontWeight: 800, color: "#00c4cc", marginBottom: "1.5rem" }}>
+                A Day at Savio Home,
+              </h2>
+              <p style={{ fontSize: "1.1rem", color: "#666", lineHeight: 1.7, marginBottom: "2rem" }}>
+                Our children follow a structured daily routine that balances education, play, creativity, and rest - 
+                creating a nurturing environment where they can thrive and grow.
+              </p>
+              
+              <div style={{ marginBottom: "2rem" }}>
+                <div style={{ display: "flex", alignItems: "center", marginBottom: "15px" }}>
+                  <div style={{
+                    width: "40px",
+                    height: "40px",
+                    background: "#00eaff",
+                    borderRadius: "50%",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    color: "white",
+                    fontWeight: "bold",
+                    marginRight: "15px",
+                    flexShrink: 0
+                  }}>
+                    1
+                  </div>
+                  <div>
+                    <strong style={{ color: "#333" }}>Morning Routine</strong>
+                    <div style={{ color: "#666" }}>Exercise, breakfast, and preparation for school</div>
+                  </div>
+                </div>
+                
+                <div style={{ display: "flex", alignItems: "center", marginBottom: "15px" }}>
+                  <div style={{
+                    width: "40px",
+                    height: "40px",
+                    background: "#00eaff",
+                    borderRadius: "50%",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    color: "white",
+                    fontWeight: "bold",
+                    marginRight: "15px",
+                    flexShrink: 0
+                  }}>
+                    2
+                  </div>
+                  <div>
+                    <strong style={{ color: "#333" }}>Education Time</strong>
+                    <div style={{ color: "#666" }}>School classes and after-school tutoring</div>
+                  </div>
+                </div>
+                
+                <div style={{ display: "flex", alignItems: "center", marginBottom: "15px" }}>
+                  <div style={{
+                    width: "40px",
+                    height: "40px",
+                    background: "#00eaff",
+                    borderRadius: "50%",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    color: "white",
+                    fontWeight: "bold",
+                    marginRight: "15px",
+                    flexShrink: 0
+                  }}>
+                    3
+                  </div>
+                  <div>
+                    <strong style={{ color: "#333" }}>Creative Activities</strong>
+                    <div style={{ color: "#666" }}>Art, music, sports, and skill development</div>
+                  </div>
+                </div>
+                
+                <div style={{ display: "flex", alignItems: "center" }}>
+                  <div style={{
+                    width: "40px",
+                    height: "40px",
+                    background: "#00eaff",
+                    borderRadius: "50%",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    color: "white",
+                    fontWeight: "bold",
+                    marginRight: "15px",
+                    flexShrink: 0
+                  }}>
+                    4
+                  </div>
+                  <div>
+                    <strong style={{ color: "#333" }}>Family Time</strong>
+                    <div style={{ color: "#666" }}>Evening meals, storytelling, and bonding activities</div>
+                  </div>
+                </div>
+              </div>
+            </Col>
+            
+            <Col lg={6}>
+              <div style={{
+                display: "grid",
+                gridTemplateColumns: "1fr 1fr",
+                gap: "15px"
+              }}>
+                <img 
+                  src="https://i.pinimg.com/1200x/a5/78/79/a57879029195f32e7b493d8218ff362c.jpg" 
+                  alt="Children studying" 
+                  style={{ 
+                    width: "100%", 
+                    borderRadius: "10px",
+                    boxShadow: "0 10px 25px rgba(0,0,0,0.1)"
+                  }}
+                />
+                <img 
+                  src="https://i.pinimg.com/736x/8d/6b/4f/8d6b4f321ef3eb04dfe9c1caad3bc6e1.jpg" 
+                  alt="Children playing" 
+                  style={{ 
+                    width: "100%", 
+                    borderRadius: "10px",
+                    boxShadow: "0 10px 25px rgba(0,0,0,0.1)"
+                  }}
+                />
+                <img 
+                  src="https://i.pinimg.com/1200x/88/41/86/88418646ef28f7c937ececbb1ab26083.jpg" 
+                  alt="Children eating" 
+                  style={{ 
+                    width: "100%", 
+                    borderRadius: "10px",
+                    boxShadow: "0 10px 25px rgba(0,0,0,0.1)"
+                  }}
+                />
+                <img 
+                  src="https://i.pinimg.com/1200x/c9/46/cc/c946ccfa78b91ef057b284889e5d628e.jpg" 
+                  alt="Children activities" 
+                  style={{ 
+                    width: "100%", 
+                    borderRadius: "10px",
+                    boxShadow: "0 10px 25px rgba(0,0,0,0.1)"
+                  }}
+                />
+              </div>
+            </Col>
+          </Row>
+        </Container>
+      </section>
     </>
   );
 }
