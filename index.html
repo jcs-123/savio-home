@@ -8,23 +8,30 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <!-- Title -->
-  <title>Savio Home – Hope • Care • Shelter • Child Development</title>
+  <title>Savio Home</title>
 
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="/src/assets/logo.png" />
 
-  <!-- Primary SEO -->
+  <!-- Theme Color (Android Chrome top bar CYAN) -->
+  <meta name="theme-color" content="#00eaff" />
+
+  <!-- iOS Safari top bar color -->
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+
+  <!-- SEO Meta -->
   <meta name="description"
-    content="Savio Home, Manakody – A loving home providing shelter, nutritious food, education, emotional support, and holistic development for children. Established in 1975, serving the Archdiocese of Thrissur. Donate • Volunteer • Sponsor a Meal.">
+    content="Savio Home, Manakody – Providing love, care, shelter, nutritious food, education, and emotional support for children since 1975. Donate • Volunteer • Sponsor a Meal." />
   <meta name="keywords"
-    content="Savio Home, orphanage, Thrissur orphanage, child care, charity Kerala, donate orphanage, sponsor meal, volunteering, Savio Home Manakody, Archdiocese Thrissur, children home">
+    content="Savio Home, Manakody, orphanage thrissur, charity thrissur, children home thrissur, donate orphanage, child care Kerala, volunteer Kerala, Archdiocese Thrissur" />
   <meta name="author" content="Savio Home, Manakody" />
 
   <!-- Open Graph (Facebook / WhatsApp Preview) -->
   <meta property="og:title" content="Savio Home – A Loving Home for Children" />
   <meta property="og:description"
-    content="Providing care, education, nourishment & holistic development to children for 50 years. Join hands—Donate, Volunteer, Sponsor a Meal." />
-  <meta property="og:image" content="/savio-cover.jpg" />
+    content="A safe and nurturing home providing care, education & nourishment for children. Join hands—Donate, Volunteer, Sponsor a Meal." />
+
   <meta property="og:type" content="website" />
 
   <!-- Twitter Card -->
@@ -34,27 +41,33 @@
     content="A safe and nurturing home for children in need. Help us create better futures." />
   <meta name="twitter:image" content="/src/assets/logo.png" />
 
-  <!-- Theme Color for Mobile -->
-  <meta name="theme-color" content="#00a9c9" />
+  <!-- Fonts + Speed Optimization -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet" />
 
-
-
-  <!-- Global CSS Reset -->
+  <!-- Global CSS Reset + Theme Tuning -->
   <style>
     body {
       margin: 0;
-      font-family: 'Inter', sans-serif;
-      background: #fff;
+      font-family: "Inter", sans-serif;
+      background: #ffffff;
     }
 
+    /* Highlight selection */
     ::selection {
-      background: #00a9c9;
+      background: #00eaff;
       color: #fff;
     }
 
-    /* Smooth full page transitions */
+    /* Smooth Page Scroll */
     html {
       scroll-behavior: smooth;
+    }
+
+    /* Remove iOS grey tap highlight */
+    * {
+      -webkit-tap-highlight-color: transparent;
     }
   </style>
 
@@ -62,10 +75,10 @@
 
 <body>
 
-  <!-- React App Root -->
+  <!-- React Root -->
   <div id="root"></div>
 
-  <!-- React/Vite Bundle -->
+  <!-- Vite Entry Script -->
   <script type="module" src="/src/main.jsx"></script>
 
 </body>
