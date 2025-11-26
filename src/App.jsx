@@ -13,6 +13,7 @@ import VolunteerModal from "./Components/VolunteerModal";
 import OfferMealModal from "./Components/OfferMealModal";
 import Footer from "./Components/Footer";
 import GalleryPage from "./pages/Gallerypage";
+
 export default function App() {
     const [modal, setModal] = useState(null);
   return (
