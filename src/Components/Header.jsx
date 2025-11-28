@@ -554,7 +554,7 @@ export default function Header({openModal}) {
           {/* MOBILE MENU */}
           {open && (
             <div className="mobile-menu">
-              {["home","about","mission","children","gallery","contact"].map((id) => (
+              {["home","about","leadership Lineage","children","gallery","contact"].map((id) => (
                 <button 
                   key={id} 
                   className={active === id ? "nav-active" : ""}

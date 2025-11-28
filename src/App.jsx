@@ -16,13 +16,14 @@ import GalleryPage from "./pages/GalleryPage";
 
 export default function App() {
     const [modal, setModal] = useState(null);
+      const openModal = (type) => setModal(type);
   return (
     <>
     
       <Header openModal={setModal} />
 
       {/* All Sections in Home */}
-      <section id="home"><Home /></section>
+      <section id="home"><Home openModal={openModal} /></section>
       <section id="about"><About /></section>
       <section id="leadership Lineage"
 ><LeadershipLineage/></section>

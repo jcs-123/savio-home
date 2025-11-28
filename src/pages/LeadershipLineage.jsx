@@ -15,10 +15,10 @@ import l12 from "../assets/FrSijoMuringathery.jpg"
 import l13 from "../assets/FrVargheseKanjirathingal.jpg"
 import l14 from "../assets/Fr.ChackoParayil.jpg"
 
-
 export default function LeadershipLineage() {
   const [visibleCards, setVisibleCards] = useState([]);
   const [showAll, setShowAll] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const cardRefs = useRef([]);
 
   const directors = [
@@ -28,7 +28,7 @@ export default function LeadershipLineage() {
       period: "1975 – 1978",
       details: "The first Director who established the Home.",
       delay: 0.1,
-      photo: l5 // Replace with actual image path
+      photo: l5
     },
     {
       era: "The Expansion",
@@ -151,7 +151,38 @@ export default function LeadershipLineage() {
     return getStartYear(b.period) - getStartYear(a.period);
   });
 
-  const displayedDirectors = showAll ? sortedDirectors : sortedDirectors.slice(0, 3);
+  // Check if mobile on mount and resize
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+
+    return () => {
+      window.removeEventListener('resize', checkMobile);
+    };
+  }, []);
+
+  // Get current director (most recent one with current: true)
+  const currentDirector = sortedDirectors.find(d => d.current) || sortedDirectors[0];
+
+  // Get displayed directors based on screen size and showAll state
+  const getDisplayedDirectors = () => {
+    if (isMobile && !showAll) {
+      // Mobile: Show only current director
+      return [currentDirector];
+    } else if (!showAll) {
+      // Desktop: Show first 3 directors
+      return sortedDirectors.slice(0, 3);
+    } else {
+      // Show all directors
+      return sortedDirectors;
+    }
+  };
+
+  const displayedDirectors = getDisplayedDirectors();
 
   // Intersection Observer for scroll animations
   useEffect(() => {
@@ -182,7 +213,7 @@ export default function LeadershipLineage() {
         if (ref) observer.unobserve(ref);
       });
     };
-  }, [showAll]);
+  }, [showAll, isMobile]);
 
   return (
     <>
@@ -251,9 +282,52 @@ export default function LeadershipLineage() {
         padding: "80px 0" 
       }}>
         <Container>
+          {/* Mobile Current Director Header */}
+          {isMobile && !showAll && (
+            <Row className="mb-4">
+              <Col className="text-center">
+                <div
+                  style={{
+                    background: "linear-gradient(135deg, rgba(0,234,255,0.1) 0%, rgba(0,164,187,0.1) 100%)",
+                    padding: "20px",
+                    borderRadius: "15px",
+                    border: "2px solid rgba(0,234,255,0.2)",
+                    marginBottom: "30px"
+                  }}
+                >
+                  <h3 style={{ 
+                    color: "#00a4bb", 
+                    fontWeight: "700",
+                    marginBottom: "10px"
+                  }}>
+                    Current Director
+                  </h3>
+                  <p style={{ 
+                    color: "#555", 
+                    margin: 0,
+                    fontSize: "0.95rem"
+                  }}>
+                    Meet our present director and explore the legacy of leadership below
+                  </p>
+                </div>
+              </Col>
+            </Row>
+          )}
+
           <Row>
             {displayedDirectors.map((d, i) => (
-              <Col lg={4} md={6} sm={12} key={i} className="mb-4">
+              <Col 
+                lg={4} 
+                md={6} 
+                sm={12} 
+                key={i} 
+                className="mb-4"
+                // On mobile when showing only current, make it full width and centered
+                {...(isMobile && !showAll && {
+                  xs: 12,
+                  style: { display: 'flex', justifyContent: 'center' }
+                })}
+              >
                 <div
                   ref={(el) => (cardRefs.current[i] = el)}
                   className="director-card"
@@ -274,6 +348,11 @@ export default function LeadershipLineage() {
                     opacity: visibleCards.includes(i) ? 1 : 0,
                     transform: visibleCards.includes(i) ? "translateY(0)" : "translateY(40px)",
                     animation: visibleCards.includes(i) ? `cardSlideIn 0.6s ease-out ${d.delay}s both` : "none",
+                    // On mobile when showing only current, limit width for better appearance
+                    ...(isMobile && !showAll && {
+                      maxWidth: "400px",
+                      width: "100%"
+                    })
                   }}
                   onMouseEnter={(e) => {
                     e.currentTarget.style.transform = "translateY(-8px) scale(1.02)";
@@ -288,9 +367,10 @@ export default function LeadershipLineage() {
                       : "0 8px 25px rgba(0,0,0,0.08)";
                   }}
                 >
-                  {/* Current Director Badge */}
+                  {/* Current Director Badge - Hidden on mobile when showing only current */}
                   {d.current && (
                     <div
+                      className={isMobile && !showAll ? "d-none" : "d-none d-md-block"}
                       style={{
                         position: "absolute",
                         top: "15px",
@@ -310,35 +390,34 @@ export default function LeadershipLineage() {
                   )}
 
                   {/* Profile Photo - Round Design */}
-                 <div
-  style={{
-    width: "110px",
-    height: "110px",
-    borderRadius: "50%",
-    background: d.current 
-      ? "linear-gradient(135deg, #00eaff, #00c4cc)" 
-      : "linear-gradient(135deg, #00eaff, #00a4bb)",
-    margin: "0 auto 20px",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    padding: "4px",
-    boxShadow: "0 8px 20px rgba(0, 0, 0, 0.15)",
-  }}
->
-  <img 
-    src={d.photo}
-    alt={d.name}
-    style={{
-      width: "100%",
-      height: "100%",
-      objectFit: "cover",
-      borderRadius: "50%",
-      border: d.current ? "3px solid white" : "3px solid transparent",
-    }}
-  />
-</div>
-
+                  <div
+                    style={{
+                      width: "110px",
+                      height: "110px",
+                      borderRadius: "50%",
+                      background: d.current 
+                        ? "linear-gradient(135deg, #00eaff, #00c4cc)" 
+                        : "linear-gradient(135deg, #00eaff, #00a4bb)",
+                      margin: "0 auto 20px",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      padding: "4px",
+                      boxShadow: "0 8px 20px rgba(0, 0, 0, 0.15)",
+                    }}
+                  >
+                    <img 
+                      src={d.photo}
+                      alt={d.name}
+                      style={{
+                        width: "100%",
+                        height: "100%",
+                        objectFit: "cover",
+                        borderRadius: "50%",
+                        border: d.current ? "3px solid white" : "3px solid transparent",
+                      }}
+                    />
+                  </div>
 
                   {/* Era Badge */}
                   <div
@@ -435,7 +514,7 @@ export default function LeadershipLineage() {
           </Row>
 
           {/* Show More/Less Button */}
-          {!showAll && directors.length > 3 && (
+          {!showAll && directors.length > 1 && (
             <Row>
               <Col className="text-center mt-4">
                 <Button
@@ -461,7 +540,7 @@ export default function LeadershipLineage() {
                     e.target.style.boxShadow = "0 8px 20px rgba(0, 234, 255, 0.3)";
                   }}
                 >
-                  View All Directors ({directors.length})
+                  {isMobile ? "View All Directors" : `View All Directors (${directors.length})`}
                 </Button>
               </Col>
             </Row>
@@ -573,6 +652,14 @@ export default function LeadershipLineage() {
           section {
             padding: 60px 0 !important;
           }
+
+          /* On mobile, when showing only current director, make it more prominent */
+          .director-card:only-child {
+            max-width: 400px !important;
+            margin-left: auto;
+            margin-right: auto;
+            box-shadow: 0 12px 30px rgba(0, 140, 255, 0.25) !important;
+          }
         }
 
         @media (max-width: 576px) {
@@ -590,9 +677,8 @@ export default function LeadershipLineage() {
 
           /* Profile photo smaller on mobile */
           .director-card > div:first-child {
-            width: 80px !important;
-            height: 80px !important;
-            font-size: 2rem !important;
+            width: 100px !important;
+            height: 100px !important;
           }
         }
 

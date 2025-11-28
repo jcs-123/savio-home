@@ -36,19 +36,45 @@ export default function DonateModal({ close }) {
       return;
     }
 
-    // Simulate form submission
-    try {
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      
-      // Here you would typically send data to your backend
-      console.log('Form submitted:', formData);
-      
-      setSubmitStatus({ 
-        type: 'success', 
-        message: 'Thank you for your donation details! We will contact you shortly.' 
-      });
-      
-      // Reset form after successful submission
+    // Format message for WhatsApp
+    const whatsappMessage = `
+*New Donation Form Submission*
+
+*Personal Details:*
+👤 *Name:* ${formData.name}
+📞 *Phone:* ${formData.phone}
+📧 *Email:* ${formData.email}
+
+*Address:*
+🏠 *Address:* ${formData.address || 'Not provided'}
+🏙️ *City:* ${formData.city || 'Not provided'}
+🏛️ *State:* ${formData.state || 'Not provided'}
+🌍 *Country:* ${formData.country || 'Not provided'}
+📮 *Pincode:* ${formData.pincode || 'Not provided'}
+
+*Tax Information:*
+💳 *PAN:* ${formData.pan || 'Not provided'}
+
+*Donation Method:* Form Submission
+*Date:* ${new Date().toLocaleDateString()}
+*Time:* ${new Date().toLocaleTimeString()}
+
+*Sent via Savio Home Donation Portal*
+    `.trim();
+
+    // Encode message for URL
+    const encodedMessage = encodeURIComponent(whatsappMessage);
+    
+    // WhatsApp phone number
+    const whatsappNumber = "918921915287";
+    
+    // Create WhatsApp URL
+    const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
+    
+    // Open WhatsApp in new tab
+    setTimeout(() => {
+      window.open(whatsappUrl, '_blank');
+      setIsSubmitting(false);
       setFormData({
         name: "",
         phone: "",
@@ -60,83 +86,80 @@ export default function DonateModal({ close }) {
         pincode: "",
         pan: ""
       });
+      
+      setSubmitStatus({ 
+        type: 'success', 
+        message: 'Form submitted successfully! Redirecting to WhatsApp...' 
+      });
 
       // Auto-close after success
       setTimeout(() => {
         close();
-      }, 3000);
-
-    } catch (error) {
-      setSubmitStatus({ 
-        type: 'error', 
-        message: 'Something went wrong. Please try again.' 
-      });
-    } finally {
-      setIsSubmitting(false);
-    }
+      }, 2000);
+    }, 1000);
   };
-const handlePrintBankDetails = () => {
-  const printWindow = window.open("", "_blank");
 
-  const htmlContent = `
-    <html>
-      <head>
-        <title>Savio Home - Bank Details</title>
-        <style>
-          body {
-            font-family: Arial, sans-serif;
-            padding: 30px;
-            line-height: 1.6;
-          }
-          h2 {
-            text-align: center;
-            color: #007b8b;
-            font-size: 24px;
-            margin-bottom: 20px;
-          }
-          .bank-box {
-            border: 2px solid #007b8b;
-            padding: 20px;
-            border-radius: 10px;
-            font-size: 18px;
-          }
-          .info {
-            margin: 6px 0;
-          }
-        </style>
-      </head>
-      <body>
-        <h2>Savio Home – Bank Donation Details</h2>
+  const handlePrintBankDetails = () => {
+    const printWindow = window.open("", "_blank");
 
-        <div class="bank-box">
-          <p class="info"><strong>Account Name:</strong> Savio Home Orphanage</p>
-          <p class="info"><strong>Account Number:</strong> 0368053000032728</p>
-          <p class="info"><strong>IFSC Code:</strong> SIBL0000368</p>
-          <p class="info"><strong>Bank:</strong> The South Indian Bank</p>
-          <p class="info"><strong>Branch:</strong> Thrissur East Fort Branch</p>
-          <p class="info"><strong>Address:</strong> St. John’s Arcade, East Fort, Thrissur 680005</p>
-        </div>
+    const htmlContent = `
+      <html>
+        <head>
+          <title>Savio Home - Bank Details</title>
+          <style>
+            body {
+              font-family: Arial, sans-serif;
+              padding: 30px;
+              line-height: 1.6;
+            }
+            h2 {
+              text-align: center;
+              color: #007b8b;
+              font-size: 24px;
+              margin-bottom: 20px;
+            }
+            .bank-box {
+              border: 2px solid #007b8b;
+              padding: 20px;
+              border-radius: 10px;
+              font-size: 18px;
+            }
+            .info {
+              margin: 6px 0;
+            }
+          </style>
+        </head>
+        <body>
+          <h2>Savio Home – Bank Donation Details</h2>
 
-        <br><br>
-        <p style="text-align:center; font-size:16px;">
-          Thank you for supporting our children ❤️
-        </p>
+          <div class="bank-box">
+            <p class="info"><strong>Account Name:</strong> Savio Home Orphanage</p>
+            <p class="info"><strong>Account Number:</strong> 0368053000032728</p>
+            <p class="info"><strong>IFSC Code:</strong> SIBL0000368</p>
+            <p class="info"><strong>Bank:</strong> The South Indian Bank</p>
+            <p class="info"><strong>Branch:</strong> Thrissur East Fort Branch</p>
+            <p class="info"><strong>Address:</strong> St. John's Arcade, East Fort, Thrissur 680005</p>
+          </div>
 
-        <script>
-          window.onload = () => {
-            window.print();
-            setTimeout(()=> window.close(), 500);
-          };
-        </script>
-      </body>
-    </html>
-  `;
+          <br><br>
+          <p style="text-align:center; font-size:16px;">
+            Thank you for supporting our children ❤️
+          </p>
 
-  printWindow.document.open();
-  printWindow.document.write(htmlContent);
-  printWindow.document.close();
-};
+          <script>
+            window.onload = () => {
+              window.print();
+              setTimeout(()=> window.close(), 500);
+            };
+          </script>
+        </body>
+      </html>
+    `;
 
+    printWindow.document.open();
+    printWindow.document.write(htmlContent);
+    printWindow.document.close();
+  };
 
   return (
     <>
@@ -278,21 +301,20 @@ const handlePrintBankDetails = () => {
                 {isSubmitting ? (
                   <>
                     <div className="spinner"></div>
-                    Submitting...
+                    Preparing WhatsApp...
                   </>
                 ) : (
-                  "Submit Donation Details"
+                  "Submit Donation Form"
                 )}
               </button>
 
-           <button 
-  type="button" 
-  className="print-btn"
-  onClick={handlePrintBankDetails}
->
-  Print Bank Details (PDF)
-</button>
-
+              <button 
+                type="button" 
+                className="print-btn"
+                onClick={handlePrintBankDetails}
+              >
+                Print Bank Details
+              </button>
             </div>
           </form>
 
@@ -482,25 +504,39 @@ const handlePrintBankDetails = () => {
           margin: 25px 0;
         }
 
-        .submit-btn {
-          padding: 16px 30px;
-          background: linear-gradient(135deg, #00a9c9 0%, #007b8b 100%);
-          border: none;
-          font-size: 1.1rem;
-          font-weight: 700;
-          color: white;
-          border-radius: 12px;
-          cursor: pointer;
-          transition: all 0.3s ease;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          gap: 10px;
-        }
-        .submit-btn:hover:not(:disabled) {
-          transform: translateY(-3px);
-          box-shadow: 0 10px 25px rgba(0,169,201,0.4);
-        }
+       .submit-btn {
+  padding: 16px 30px;
+  background: linear-gradient(135deg, #00c4ff 0%, #0088cc 100%);
+  border: none;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: white;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  box-shadow: 0 8px 22px rgba(0, 180, 255, 0.35);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Hover Effect */
+.submit-btn:hover:not(:disabled) {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 28px rgba(0, 180, 255, 0.5);
+}
+
+/* Disabled State */
+.submit-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
         .submit-btn:disabled {
           opacity: 0.7;
           cursor: not-allowed;

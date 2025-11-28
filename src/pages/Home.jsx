@@ -1,35 +1,63 @@
 import React, { useState, useEffect } from "react";
 import { Container, Row, Col, Button, Carousel, Card } from "react-bootstrap";
+import img1 from "../assets/IMG_20251011_171729983.jpg";
+import img2 from "../assets/IMG_20251124_073052114.jpg";
+import img3 from "../assets/IMG_20251125_072356888.jpg";
+import img4 from "../assets/IMG_20251124_070822200.jpg";
+import home2 from "../assets/home2.jpg";
+import home1 from "../assets/home1.avif";
+import home3 from "../assets/home3.avif";
 
 // ---------------- SLIDER IMAGES ----------------
-const slideImages = [
-  "https://images.unsplash.com/photo-1542810634-71277d95dcbb?auto=format&q=80&fit=crop&w=1600&q=80",
-  "https://i.pinimg.com/736x/8e/31/20/8e31206604cc29706c580022890d09b3.jpg",
-  "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?auto=format&q=80&fit=crop&w=1600&q=80",
-];
+// const slideImages = [
+//   "https://images.unsplash.com/photo-1542810634-71277d95dcbb?auto=format&q=80&fit=crop&w=1600&q=80",
+//   "https://i.pinimg.com/736x/8e/31/20/8e31206604cc29706c580022890d09b3.jpg",
+//   "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?auto=format&q=80&fit=crop&w=1600&q=80",
+// ];
 
+
+const slideImages = [
+  home1,
+    home2,
+
+ home3,
+];
 // ---------------- SLIDE CONTENT ----------------
 const slideContent = [
   {
     title: "Bringing Hope to Every Child's Future",
     subtitle: "Providing safe homes, quality education, and loving care for orphaned children",
     highlight: "Future",
+
     button1: "💝 Donate Now",
-    button2: "👨‍👩‍👧‍👦 Sponsor a Child"
+    button1Action: "donate",
+
+    button2: "👨‍👩‍👧‍👦 Sponsor a Child",
+    button2Action: "donate"   // or "sponsor" if you have that modal
   },
+
   {
     title: "Education Changes Everything",
     subtitle: "Empowering children through quality education and skill development programs",
     highlight: "Education",
+
     button1: "🏫 Support Education",
-    button2: "📚 Donate Books"
+    button1Action: "donate",
+
+    button2: "📚 Donate Books",
+    button2Action: "donate"
   },
+
   {
     title: "A Loving Home for Every Child",
     subtitle: "Creating family environments where children can heal, grow, and thrive",
     highlight: "Home",
+
     button1: "❤️ Become Volunteer",
-    button2: "🏠 Fund a Home"
+    button1Action: "volunteer",
+
+    button2: " Offer A Meal",
+    button2Action: "meal"  // offering meals OR funding home
   }
 ];
 
@@ -417,7 +445,7 @@ if (!document.getElementById("professional-home-css")) {
 // =====================================================
 //                PROFESSIONAL COMPONENT
 // =====================================================
-export default function Home() {
+export default function Home({ openModal }) {
   const [index, setIndex] = useState(0);
 
   const handleSelect = (selectedIndex) => {
@@ -491,23 +519,26 @@ export default function Home() {
                         {slideContent[index].subtitle}
                       </p>
 
-                      <div style={styles.btnRow} className="btn-row">
-                        <Button
-                          className="home-btn donate-btn-hover pulsing-element"
-                          style={styles.donateBtn}
-                          size="lg"
-                        >
-                          {slideContent[index].button1}
-                        </Button>
+                 <div style={styles.btnRow} className="btn-row">
+  <Button
+    className="home-btn donate-btn-hover pulsing-element"
+    style={styles.donateBtn}
+    size="lg"
+    onClick={() => openModal(slideContent[index].button1Action)}
+  >
+    {slideContent[index].button1}
+  </Button>
 
-                        <Button
-                          className="home-btn sponsor-btn-hover"
-                          style={styles.sponsorBtn}
-                          size="lg"
-                        >
-                          {slideContent[index].button2}
-                        </Button>
-                      </div>
+  <Button
+    className="home-btn sponsor-btn-hover"
+    style={styles.sponsorBtn}
+    size="lg"
+    onClick={() => openModal(slideContent[index].button2Action)}
+  >
+    {slideContent[index].button2}
+  </Button>
+</div>
+
 {/* Quick Stats - Minimal */}
 {/* Quick Stats - Animated Count-Up */}
 <Row className="mt-5">
@@ -591,48 +622,59 @@ export default function Home() {
           ))}
         </Carousel>
       </section>
+{/* IMPACT STATS SECTION */}
+<section style={styles.statsSection}>
+  <Container>
+    <Row className="text-center mb-5">
+      <Col>
+        <h2 style={{ fontSize: "2.8rem", fontWeight: 800, color: "#00c4cc", marginBottom: "1rem" }}>
+          Our Impact in Numbers
+        </h2>
+        <p style={{ fontSize: "1.2rem", color: "#666", maxWidth: "600px", margin: "0 auto" }}>
+          Nearly 50 years of dedicated service in nurturing, educating, and uplifting children in need.
+        </p>
+      </Col>
+    </Row>
 
-      {/* IMPACT STATS SECTION */}
-      <section style={styles.statsSection}>
-        <Container>
-          <Row className="text-center mb-5">
-            <Col>
-              <h2 style={{ fontSize: "2.8rem", fontWeight: 800, color: "#00c4cc", marginBottom: "1rem" }}>
-                Our Impact in Numbers
-              </h2>
-              <p style={{ fontSize: "1.2rem", color: "#666", maxWidth: "600px", margin: "0 auto" }}>
-                Real numbers that show the difference we're making together
-              </p>
-            </Col>
-          </Row>
-          <Row>
-            <Col lg={3} md={6} className="mb-4">
-              <div style={styles.statCard} className="stat-card-hover">
-                <div style={styles.statNumber}>1,250+</div>
-                <div style={styles.statText}>Meals Served Monthly</div>
-              </div>
-            </Col>
-            <Col lg={3} md={6} className="mb-4">
-              <div style={styles.statCard} className="stat-card-hover">
-                <div style={styles.statNumber}>98%</div>
-                <div style={styles.statText}>Education Success Rate</div>
-              </div>
-            </Col>
-            <Col lg={3} md={6} className="mb-4">
-              <div style={styles.statCard} className="stat-card-hover">
-                <div style={styles.statNumber}>24/7</div>
-                <div style={styles.statText}>Care & Support</div>
-              </div>
-            </Col>
-            <Col lg={3} md={6} className="mb-4">
-              <div style={styles.statCard} className="stat-card-hover">
-                <div style={styles.statNumber}>15</div>
-                <div style={styles.statText}>Communities Reached</div>
-              </div>
-            </Col>
-          </Row>
-        </Container>
-      </section>
+    <Row>
+
+    
+
+      {/* Current Capacity */}
+      <Col lg={3} md={6} className="mb-4">
+        <div style={styles.statCard} className="stat-card-hover">
+          <div style={styles.statNumber}>50+</div>
+          <div style={styles.statText}>Children Currently Residing</div>
+        </div>
+      </Col>
+
+      {/* Years of Service */}
+      <Col lg={3} md={6} className="mb-4">
+        <div style={styles.statCard} className="stat-card-hover">
+          <div style={styles.statNumber}>50 Years</div>
+          <div style={styles.statText}>Legacy of Care Since 1975</div>
+        </div>
+      </Col>
+
+      {/* Holistic Programs */}
+      <Col lg={3} md={6} className="mb-4">
+        <div style={styles.statCard} className="stat-card-hover">
+          <div style={styles.statNumber}>10+</div>
+          <div style={styles.statText}>Programs: Karate, Yoga, Music, Drawing, Life Skills</div>
+        </div>
+      </Col>
+  {/* Emotional & Social Care */}
+      <Col lg={3} md={6} className="mb-4">
+        <div style={styles.statCard} className="stat-card-hover">
+          <div style={styles.statNumber}>24/7</div>
+          <div style={styles.statText}>Care, Protection & Guidance</div>
+        </div>
+      </Col>
+    </Row>
+
+   
+  </Container>
+</section>
 
       {/* DAILY LIFE SECTION */}
       <section style={{
@@ -749,7 +791,7 @@ export default function Home() {
                 gap: "15px"
               }}>
                 <img 
-                  src="https://i.pinimg.com/1200x/a5/78/79/a57879029195f32e7b493d8218ff362c.jpg" 
+                  src={img1}
                   alt="Children studying" 
                   style={{ 
                     width: "100%", 
@@ -758,7 +800,7 @@ export default function Home() {
                   }}
                 />
                 <img 
-                  src="https://i.pinimg.com/736x/8d/6b/4f/8d6b4f321ef3eb04dfe9c1caad3bc6e1.jpg" 
+                  src={img2} 
                   alt="Children playing" 
                   style={{ 
                     width: "100%", 
@@ -767,7 +809,7 @@ export default function Home() {
                   }}
                 />
                 <img 
-                  src="https://i.pinimg.com/1200x/88/41/86/88418646ef28f7c937ececbb1ab26083.jpg" 
+                  src={img3}
                   alt="Children eating" 
                   style={{ 
                     width: "100%", 
@@ -776,7 +818,7 @@ export default function Home() {
                   }}
                 />
                 <img 
-                  src="https://i.pinimg.com/1200x/c9/46/cc/c946ccfa78b91ef057b284889e5d628e.jpg" 
+                  src={img4} 
                   alt="Children activities" 
                   style={{ 
                     width: "100%", 

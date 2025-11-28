@@ -1,7 +1,20 @@
 import React from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import { Link, useLocation } from "react-router-dom";
-
+import img1 from "../assets/IMG_20251011_171729983.jpg";
+import img11 from "../assets/IMG_20251125_071309893.jpg";
+import img12 from "../assets/IMG_20251125_072356888.jpg";
+import img20 from "../assets/IMG_20251124_065638992.jpg";
+import img21 from "../assets/IMG_20251124_065906800.jpg";
+import img23 from "../assets/IMG_20251124_065947952.jpg";
+import img24 from "../assets/IMG_20251124_070758113.jpg";
+import img25 from "../assets/IMG_20251124_070822200.jpg";
+import img26 from "../assets/IMG_20251124_070906850.jpg";
+import img27 from "../assets/IMG_20251124_073533519.jpg";
+import img40 from "../assets/IMG_20251125_071227109.jpg";
+import img41 from "../assets/IMG_20251125_071722675.jpg";
+import img43 from "../assets/IMG_20251125_072645341.jpg";
+import img47 from "../assets/IMG-20251127-WA0004.jpg";
 const styles = {
   section: {
     background: "#ffffff",     // ✅ WHITE BACKGROUND
@@ -62,21 +75,11 @@ export default function GalleryPage() {
   const isFullGallery = location.pathname === "/gallery";
 
   const images = [
-    "https://i.pinimg.com/1200x/38/1a/c0/381ac0ba24c44b2a7298fdd1922ba898.jpg",
-    "https://i.pinimg.com/736x/8d/6b/4f/8d6b4f321ef3eb04dfe9c1caad3bc6e1.jpg",
-    "https://i.pinimg.com/736x/d5/4b/c8/d54bc8608426e7723c800f0941498fb6.jpg",
-    "https://i.pinimg.com/736x/92/00/97/920097580b7b2357c5a146dcf1af39ee.jpg",
-    "https://i.pinimg.com/736x/c4/0a/9a/c40a9aeb3fa1bb4e6c2a6e7e3d51b6c7.jpg",
-    "https://i.pinimg.com/736x/7c/b8/2f/7cb82fffe6dbb41495e7e3d7fbc29680.jpg",
+     img1, img11, img12, img20, img21, 
 
-
-    "https://i.pinimg.com/736x/f4/1c/31/f41c31ab9773c145477228c57c881662.jpg",
-    "https://i.pinimg.com/736x/41/76/4c/41764c2b9a93217cca91c7f360acaca7.jpg",
-    "https://i.pinimg.com/736x/9b/16/a0/9b16a0b4c8bc552294161e9611598344.jpg",
-    "https://i.pinimg.com/736x/6d/a2/37/6da237af20b99859cd31518c174e2ae3.jpg",
-    "https://i.pinimg.com/1200x/90/bb/0a/90bb0a08c3f44d2601e53885b03980db.jpg",
-    "https://i.pinimg.com/736x/12/a7/5a/12a75a60503ac7d06c1e038d13c75645.jpg",
-    "https://i.pinimg.com/736x/a7/57/3e/a7573e7d4b8da3aaa4d8f088b4effd76.jpg",
+     
+    img23, img24, img25, img26, img27,
+    img40, img41, img43, img47,
   ];
 
   return (

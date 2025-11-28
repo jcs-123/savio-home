@@ -37,15 +37,79 @@ export default function VolunteerModal({ close }) {
       return;
     }
 
-    await new Promise((res) => setTimeout(res, 1500));
+    // Format message for WhatsApp
+    const whatsappMessage = `
+*New Volunteer Application*
 
-    setStatus({
-      type: "success",
-      msg: "Your volunteer application has been submitted successfully. Our team will contact you soon.",
-    });
+*Personal Information:*
+👤 *Full Name:* ${formData.fullName}
+⚧ *Gender:* ${formData.gender || 'Not provided'}
+🎂 *Age:* ${formData.age || 'Not provided'}
+🌍 *Country:* ${formData.country || 'Not provided'}
 
-    setTimeout(() => close(), 3000);
-    setIsSubmitting(false);
+*Contact Details:*
+📞 *Phone:* ${formData.phone}
+📧 *Email:* ${formData.email}
+🏠 *Address:* ${formData.address || 'Not provided'}
+
+*Employment Information:*
+💼 *Employment Status:* ${formData.employment || 'Not provided'}
+🏢 *Place of Employment:* ${formData.placeOfEmployment || 'Not provided'}
+📋 *Position:* ${formData.position || 'Not provided'}
+📍 *Work Address:* ${formData.workAddress || 'Not provided'}
+
+*Education Background:*
+🎓 *Education Level:* ${formData.educationLevel || 'Not provided'}
+📚 *Major Study Area:* ${formData.majorArea || 'Not provided'}
+🎒 *Currently Student:* ${formData.isStudent || 'Not provided'}
+
+*Application Details:*
+📅 *Submitted on:* ${new Date().toLocaleDateString()}
+⏰ *Time:* ${new Date().toLocaleTimeString()}
+
+*Sent via Savio Home Volunteer Portal*
+    `.trim();
+
+    // Encode message for URL
+    const encodedMessage = encodeURIComponent(whatsappMessage);
+    
+    // WhatsApp phone number
+    const whatsappNumber = "918921915287";
+    
+    // Create WhatsApp URL
+    const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
+    
+    // Open WhatsApp in new tab
+    setTimeout(() => {
+      window.open(whatsappUrl, '_blank');
+      setIsSubmitting(false);
+      
+      setStatus({
+        type: "success",
+        msg: "Application submitted successfully! Redirecting to WhatsApp...",
+      });
+
+      // Clear form
+      setFormData({
+        fullName: "",
+        gender: "",
+        age: "",
+        address: "",
+        country: "",
+        phone: "",
+        email: "",
+        employment: "",
+        placeOfEmployment: "",
+        position: "",
+        workAddress: "",
+        educationLevel: "",
+        majorArea: "",
+        isStudent: "",
+      });
+
+      // Auto-close after success
+      setTimeout(() => close(), 2000);
+    }, 1000);
   };
 
   return (
@@ -64,6 +128,9 @@ export default function VolunteerModal({ close }) {
             <h1 className="volunteer-title">
               Become a <span>Volunteer</span>
             </h1>
+            <p className="volunteer-subtitle">
+              Fill the form below and we'll redirect you to WhatsApp with your application
+            </p>
           </div>
 
           {/* SUMMARY SECTION */}
@@ -255,13 +322,19 @@ export default function VolunteerModal({ close }) {
               {isSubmitting ? (
                 <>
                   <span className="spinner"></span>
-                  Submitting...
+                  Preparing WhatsApp...
                 </>
               ) : (
                 "Submit Volunteer Application"
               )}
             </button>
-          </form>
+
+            {/* WHATSAPP NOTE */}
+            <div className="whatsapp-note">
+  <span className="whatsapp-icon">📱</span>
+  We will contact you shortly after form submission
+</div>
+</form>
 
           {/* STATUS MESSAGE */}
           {status && (
@@ -312,8 +385,8 @@ export default function VolunteerModal({ close }) {
         }
 
         .volunteer-close:hover {
-          color: #00a9c9;
-          background: rgba(0, 169, 201, 0.1);
+          color: #00eaff;
+          background: rgba(0, 234, 255, 0.1);
           transform: scale(1.1);
         }
 
@@ -337,25 +410,31 @@ export default function VolunteerModal({ close }) {
           font-size: 2.5rem;
           font-weight: 800;
           margin-bottom: 10px;
-          background: linear-gradient(135deg, #2c3e50 0%, #00a9c9 100%);
+          background: linear-gradient(135deg, #001a1f 0%, #00eaff 100%);
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
           line-height: 1.2;
         }
 
         .volunteer-title span {
-          color: #00a9c9;
-          -webkit-text-fill-color: #00a9c9;
+          color: #00eaff;
+          -webkit-text-fill-color: #00eaff;
+        }
+
+        .volunteer-subtitle {
+          color: #666;
+          font-size: 1.1rem;
+          margin-top: 10px;
         }
 
         .volunteer-summary {
-          background: linear-gradient(135deg, #f8fdff 0%, #e8f7fa 100%);
-          border: 2px solid #00a9c9;
+          background: linear-gradient(135deg, #f8feff 0%, #e6faff 100%);
+          border: 2px solid #00eaff;
           border-radius: 16px;
           padding: 25px;
           margin-bottom: 35px;
           line-height: 1.6;
-          color: #2c3e50;
+          color: #001a1f;
         }
 
         .volunteer-summary p {
@@ -367,7 +446,7 @@ export default function VolunteerModal({ close }) {
         }
 
         .volunteer-summary strong {
-          color: #00a9c9;
+          color: #00a4bb;
         }
 
         .volunteer-form {
@@ -397,13 +476,13 @@ export default function VolunteerModal({ close }) {
           font-size: 1rem;
           transition: all 0.3s ease;
           background: white;
-          color: #2c3e50;
+          color: #001a1f;
           font-family: inherit;
         }
 
         .form-input:focus {
-          border-color: #00a9c9;
-          box-shadow: 0 0 0 3px rgba(0, 169, 201, 0.1);
+          border-color: #00eaff;
+          box-shadow: 0 0 0 3px rgba(0, 234, 255, 0.1);
           outline: none;
           transform: translateY(-1px);
         }
@@ -414,7 +493,7 @@ export default function VolunteerModal({ close }) {
 
         select.form-input {
           appearance: none;
-          background-image: url("data:image/svg+xml;charset=US-ASCII,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'><path fill='%23333' d='M2 0L0 2h4zm0 5L0 3h4z'/></svg>");
+          background-image: url("data:image/svg+xml;charset=US-ASCII,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'><path fill='%23001a1f' d='M2 0L0 2h4zm0 5L0 3h4z'/></svg>");
           background-repeat: no-repeat;
           background-position: right 15px center;
           background-size: 12px;
@@ -423,24 +502,24 @@ export default function VolunteerModal({ close }) {
         .submit-btn {
           width: 100%;
           padding: 18px 30px;
-          background: linear-gradient(135deg, #00a9c9 0%, #007b8b 100%);
+          background: linear-gradient(135deg, #00eaff 0%, #00a4bb 100%);
           border: none;
           border-radius: 12px;
           font-size: 1.2rem;
           font-weight: 700;
-          color: white;
+          color: #001a1f;
           cursor: pointer;
           transition: all 0.3s ease;
           display: flex;
           align-items: center;
           justify-content: center;
           gap: 10px;
-          box-shadow: 0 8px 25px rgba(0, 169, 201, 0.3);
+          box-shadow: 0 8px 25px rgba(0, 234, 255, 0.3);
         }
 
         .submit-btn:hover:not(:disabled) {
           transform: translateY(-3px);
-          box-shadow: 0 12px 35px rgba(0, 169, 201, 0.4);
+          box-shadow: 0 12px 35px rgba(0, 234, 255, 0.4);
         }
 
         .submit-btn:disabled {
@@ -457,9 +536,28 @@ export default function VolunteerModal({ close }) {
           width: 20px;
           height: 20px;
           border: 2px solid transparent;
-          border-top: 2px solid white;
+          border-top: 2px solid #001a1f;
           border-radius: 50%;
           animation: spin 1s linear infinite;
+        }
+
+        .whatsapp-note {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 8px;
+          margin-top: 15px;
+          padding: 12px;
+          background: #f0fdff;
+          border: 1px solid #00eaff;
+          border-radius: 8px;
+          color: #00a4bb;
+          font-size: 0.9rem;
+          font-weight: 500;
+        }
+
+        .whatsapp-icon {
+          font-size: 1.1rem;
         }
 
         .status-message {
@@ -563,7 +661,7 @@ export default function VolunteerModal({ close }) {
 
           .form-input {
             padding: 14px 16px;
-            font-size: 16px; /* Prevents zoom on iOS */
+            font-size: 16px;
           }
 
           .submit-btn {

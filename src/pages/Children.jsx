@@ -1,5 +1,11 @@
 import React from "react";
 import { Container, Row, Col, Card } from "react-bootstrap";
+import img24 from "../assets/IMG_20251124_070758113.jpg";
+import img17 from "../assets/IMG_20251125_071722675.jpg";
+import img39 from "../assets/IMG_20251125_071022876.jpg";
+import img29 from "../assets/IMG_20251124_065947952.jpg";
+import img79 from "../assets/IMG_20251125_064729649.jpg";
+import img09 from "../assets/IMG-20251127-WA0004.jpg";
 
 export default function Children() {
   /* ================= HOVER EFFECT HANDLERS ================= */
@@ -271,32 +277,32 @@ const services = [
 
 const gallery = [
   {
-    img: "https://i.pinimg.com/736x/74/69/0a/74690a080956091e0d40c0726a096555.jpg",
+    img: img24,
     caption: "Classroom Learning",
     description: "Interactive lessons for deeper understanding.",
   },
   {
-    img: "https://i.pinimg.com/736x/a5/da/19/a5da19fc17989de53fd036486c8e4a75.jpg",
+    img: img17,
     caption: "Play Time",
     description: "Joyful outdoor recreation and play.",
   },
   {
-    img: "https://i.pinimg.com/736x/c4/20/ef/c420efd1b8c50a2215eba9c2459a80c5.jpg",
+    img: img29,
     caption: "Art & Creativity",
     description: "Inspiring imagination & artistic expression.",
   },
   {
-    img: "https://i.pinimg.com/1200x/71/cf/11/71cf114ca1696fdcbafe7144acff911b.jpg",
+    img: img39,
     caption: "Sports Activities",
     description: "Building teamwork & confidence.",
   },
   {
-    img: "https://i.pinimg.com/736x/f5/92/4f/f5924f67fdee9c357c64d10bc7712ddd.jpg",
+    img: img79,
     caption: "Skill Workshops",
     description: "Learning practical life skills.",
   },
   {
-    img: "https://i.pinimg.com/1200x/39/b4/93/39b49342e9a7a7608b9db119d7adf08e.jpg",
+    img: img09,
     caption: "Community Events",
     description: "Sharing joy through activities & events.",
   },

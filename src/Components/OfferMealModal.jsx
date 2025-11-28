@@ -35,17 +35,50 @@ export default function OfferMealModal({ close }) {
       return;
     }
 
-    // Simulate form submission
-    try {
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      
-      console.log('Meal sponsorship submitted:', formData);
+    // Format message for WhatsApp
+    const whatsappMessage = `
+*New Meal Sponsorship Request*
+
+*Personal Details:*
+👤 *Name:* ${formData.name}
+📧 *Email:* ${formData.email || 'Not provided'}
+📞 *Phone:* ${formData.phone}
+
+*Meal Sponsorship Details:*
+🍽️ *Meal Type:* ${formData.mealType}
+📅 *Preferred Date:* ${formData.mealDate}
+🔢 *Number of Meals:* ${formData.numberOfMeals || 'Not specified'}
+
+*Additional Information:*
+🎉 *Special Occasion:* ${formData.occasion || 'Not specified'}
+💬 *Message:* ${formData.message || 'No additional message'}
+
+*Request Details:*
+📅 *Submitted on:* ${new Date().toLocaleDateString()}
+⏰ *Time:* ${new Date().toLocaleTimeString()}
+
+*Sent via Savio Home Meal Sponsorship Portal*
+    `.trim();
+
+    // Encode message for URL
+    const encodedMessage = encodeURIComponent(whatsappMessage);
+    
+    // WhatsApp phone number
+    const whatsappNumber = "918921915287";
+    
+    // Create WhatsApp URL
+    const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
+    
+    // Open WhatsApp in new tab
+    setTimeout(() => {
+      window.open(whatsappUrl, '_blank');
+      setIsSubmitting(false);
       
       setSubmitStatus({ 
         type: 'success', 
-        message: 'Thank you for your meal sponsorship request! We will contact you shortly to confirm the details.' 
+        message: 'Request submitted successfully! Redirecting to WhatsApp...' 
       });
-      
+
       // Reset form after successful submission
       setFormData({
         name: "",
@@ -58,14 +91,9 @@ export default function OfferMealModal({ close }) {
         message: ""
       });
 
-    } catch (error) {
-      setSubmitStatus({ 
-        type: 'error', 
-        message: 'Something went wrong. Please try again.' 
-      });
-    } finally {
-      setIsSubmitting(false);
-    }
+      // Auto-close after success
+      setTimeout(() => close(), 2000);
+    }, 1000);
   };
 
   const handleCallCoordinator = () => {
@@ -159,7 +187,7 @@ export default function OfferMealModal({ close }) {
           <div className="form-section">
             <h3>Quick Sponsorship Request</h3>
             <p className="form-subtitle">
-              Fill this form and our coordinator will contact you to finalize the details.
+              Fill this form and we'll redirect you to WhatsApp with your request.
             </p>
 
             <form onSubmit={handleSubmit} className="meal-form">
@@ -267,12 +295,18 @@ export default function OfferMealModal({ close }) {
                 {isSubmitting ? (
                   <>
                     <div className="spinner"></div>
-                    Processing Request...
+                    Preparing WhatsApp...
                   </>
                 ) : (
-                  "Submit Sponsorship Request"
+                  "Submit  Request"
                 )}
               </button>
+
+              {/* WHATSAPP NOTE */}
+              <div className="whatsapp-note">
+                <span className="whatsapp-icon">📱</span>
+                We will contact you shortly after form submission
+              </div>
             </form>
 
             {/* SUBMISSION STATUS */}
@@ -286,7 +320,7 @@ export default function OfferMealModal({ close }) {
           {/* CLOSING MESSAGE */}
           <div className="closing-message">
             <p>
-              <strong>We look forward to partnering with you to nourish our children!</strong>
+              <strong className="text-black">We look forward to partnering with you to nourish our children!</strong>
             </p>
             <p className="closing-note">
               Your generosity provides not just food, but love and care to children in need.
@@ -338,8 +372,8 @@ export default function OfferMealModal({ close }) {
         }
 
         .meal-close-btn:hover {
-          color: #00a9c9;
-          background: rgba(0, 169, 201, 0.1);
+          color: #00eaff;
+          background: rgba(0, 234, 255, 0.1);
           transform: scale(1.1);
         }
 
@@ -363,27 +397,27 @@ export default function OfferMealModal({ close }) {
           font-size: 2.8rem;
           font-weight: 800;
           margin-bottom: 10px;
-          background: linear-gradient(135deg, #2c3e50 0%, #00a9c9 100%);
+          background: linear-gradient(135deg, #001a1f 0%, #00eaff 100%);
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
           line-height: 1.2;
         }
 
         .meal-title span {
-          color: #00a9c9;
-          -webkit-text-fill-color: #00a9c9;
+          color: #00eaff;
+          -webkit-text-fill-color: #00eaff;
         }
 
         .meal-subtitle {
           font-size: 1.3rem;
-          color: #00a9c9;
+          color: #00eaff;
           font-weight: 600;
           font-style: italic;
         }
 
         .meal-hero {
-          background: linear-gradient(135deg, #f8fdff 0%, #e8f7fa 100%);
-          border: 2px solid #00a9c9;
+          background: linear-gradient(135deg, #f8feff 0%, #e6faff 100%);
+          border: 2px solid #00eaff;
           border-radius: 16px;
           padding: 30px;
           margin-bottom: 30px;
@@ -393,7 +427,7 @@ export default function OfferMealModal({ close }) {
         .meal-description {
           font-size: 1.1rem;
           line-height: 1.7;
-          color: #2c3e50;
+          color: #001a1f;
           margin: 0;
         }
 
@@ -404,7 +438,7 @@ export default function OfferMealModal({ close }) {
         .options-title {
           font-size: 1.5rem;
           font-weight: 700;
-          color: #2c3e50;
+          color: #001a1f;
           margin-bottom: 20px;
           text-align: center;
         }
@@ -417,7 +451,7 @@ export default function OfferMealModal({ close }) {
 
         .meal-option {
           background: white;
-          border: 2px solid #00a9c9;
+          border: 2px solid #00eaff;
           border-radius: 12px;
           padding: 25px 20px;
           text-align: center;
@@ -426,13 +460,13 @@ export default function OfferMealModal({ close }) {
 
         .meal-option:hover {
           transform: translateY(-5px);
-          box-shadow: 0 10px 30px rgba(0, 169, 201, 0.2);
+          box-shadow: 0 10px 30px rgba(0, 234, 255, 0.2);
         }
 
         .option-content h4 {
           font-size: 1.3rem;
           font-weight: 700;
-          color: #00a9c9;
+          color: #00eaff;
           margin-bottom: 8px;
         }
 
@@ -443,14 +477,14 @@ export default function OfferMealModal({ close }) {
         }
 
         .contact-info {
-          background: linear-gradient(135deg, #f8fdff 0%, #e8f7fa 100%);
+          background: linear-gradient(135deg, #f8feff 0%, #e6faff 100%);
           border-radius: 16px;
           padding: 30px;
           margin-bottom: 35px;
         }
 
         .contact-info h3 {
-          color: #2c3e50;
+          color: #001a1f;
           margin-bottom: 15px;
           font-size: 1.4rem;
         }
@@ -458,14 +492,14 @@ export default function OfferMealModal({ close }) {
         .contact-info p {
           line-height: 1.6;
           margin-bottom: 20px;
-          color: #2c3e50;
+          color: #001a1f;
         }
 
         .coordinator-card {
           background: white;
           border-radius: 12px;
           padding: 25px;
-          border: 2px solid #00a9c9;
+          border: 2px solid #00eaff;
           display: flex;
           justify-content: space-between;
           align-items: center;
@@ -480,13 +514,13 @@ export default function OfferMealModal({ close }) {
         .coordinator-info strong {
           display: block;
           font-size: 1.2rem;
-          color: #2c3e50;
+          color: #001a1f;
           margin-bottom: 8px;
         }
 
         .contact-number {
           font-size: 1.1rem;
-          color: #00a9c9;
+          color: #00eaff;
           font-weight: 600;
         }
 
@@ -507,8 +541,8 @@ export default function OfferMealModal({ close }) {
         }
 
         .call-btn {
-          background: #00a9c9;
-          color: white;
+          background: #00eaff;
+          color: #001a1f;
         }
 
         .whatsapp-btn {
@@ -527,7 +561,7 @@ export default function OfferMealModal({ close }) {
 
         .form-section h3 {
           font-size: 1.5rem;
-          color: #2c3e50;
+          color: #001a1f;
           margin-bottom: 10px;
         }
 
@@ -564,13 +598,13 @@ export default function OfferMealModal({ close }) {
           font-size: 1rem;
           transition: all 0.3s ease;
           background: white;
-          color: #2c3e50;
+          color: #001a1f;
           font-family: inherit;
         }
 
         .form-input:focus {
-          border-color: #00a9c9;
-          box-shadow: 0 0 0 3px rgba(0, 169, 201, 0.1);
+          border-color: #00eaff;
+          box-shadow: 0 0 0 3px rgba(0, 234, 255, 0.1);
           outline: none;
           transform: translateY(-1px);
         }
@@ -581,7 +615,7 @@ export default function OfferMealModal({ close }) {
 
         select.form-input {
           appearance: none;
-          background-image: url("data:image/svg+xml;charset=US-ASCII,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'><path fill='%23333' d='M2 0L0 2h4zm0 5L0 3h4z'/></svg>");
+          background-image: url("data:image/svg+xml;charset=US-ASCII,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'><path fill='%23001a1f' d='M2 0L0 2h4zm0 5L0 3h4z'/></svg>");
           background-repeat: no-repeat;
           background-position: right 15px center;
           background-size: 12px;
@@ -595,24 +629,24 @@ export default function OfferMealModal({ close }) {
         .submit-btn {
           width: 100%;
           padding: 18px 30px;
-          background: linear-gradient(135deg, #00a9c9 0%, #007b8b 100%);
+          background: linear-gradient(135deg, #00eaff 0%, #00a4bb 100%);
           border: none;
           border-radius: 12px;
           font-size: 1.2rem;
           font-weight: 700;
-          color: white;
+          color: #001a1f;
           cursor: pointer;
           transition: all 0.3s ease;
           display: flex;
           align-items: center;
           justify-content: center;
           gap: 10px;
-          box-shadow: 0 8px 25px rgba(0, 169, 201, 0.3);
+          box-shadow: 0 8px 25px rgba(0, 234, 255, 0.3);
         }
 
         .submit-btn:hover:not(:disabled) {
           transform: translateY(-3px);
-          box-shadow: 0 12px 35px rgba(0, 169, 201, 0.4);
+          box-shadow: 0 12px 35px rgba(0, 234, 255, 0.4);
         }
 
         .submit-btn:disabled {
@@ -629,9 +663,28 @@ export default function OfferMealModal({ close }) {
           width: 20px;
           height: 20px;
           border: 2px solid transparent;
-          border-top: 2px solid white;
+          border-top: 2px solid #001a1f;
           border-radius: 50%;
           animation: spin 1s linear infinite;
+        }
+
+        .whatsapp-note {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 8px;
+          margin-top: 15px;
+          padding: 12px;
+          background: #f0fdff;
+          border: 1px solid #00eaff;
+          border-radius: 8px;
+          color: #00a4bb;
+          font-size: 0.9rem;
+          font-weight: 500;
+        }
+
+        .whatsapp-icon {
+          font-size: 1.1rem;
         }
 
         .status-message {
@@ -657,12 +710,12 @@ export default function OfferMealModal({ close }) {
         }
 
         .closing-message {
-          background: linear-gradient(135deg, #f8fdff 0%, #e8f7fa 100%);
+          background: linear-gradient(135deg, #f8feff 0%, #e6faff 100%);
           border-radius: 12px;
           padding: 25px;
           text-align: center;
           margin-bottom: 25px;
-          border: 2px solid #00a9c9;
+          border: 2px solid #00eaff;
         }
 
         .closing-message p {

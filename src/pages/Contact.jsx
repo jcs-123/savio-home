@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
-import { FaMapMarkerAlt, FaPhoneAlt, FaEnvelope, FaPaperPlane } from "react-icons/fa";
+import { FaMapMarkerAlt, FaPhoneAlt, FaEnvelope, FaPaperPlane, FaWhatsapp } from "react-icons/fa";
 
 export default function Contact() {
   const [form, setForm] = useState({
@@ -20,12 +20,33 @@ export default function Contact() {
     e.preventDefault();
     setIsSubmitting(true);
     
-    // Simulate form submission
+    // Format message for WhatsApp
+    const whatsappMessage = `
+*New Contact Form Submission*
+
+*Name:* ${form.name}
+*Email:* ${form.email}
+*Phone:* ${form.phone}
+*Message:* ${form.message}
+
+*Sent via Savio Home Website*
+    `.trim();
+
+    // Encode message for URL
+    const encodedMessage = encodeURIComponent(whatsappMessage);
+    
+    // WhatsApp phone number (Savio Home's number)
+    const whatsappNumber = "918921915287"; // +91 89219 15287
+    
+    // Create WhatsApp URL
+    const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
+    
+    // Open WhatsApp in new tab
     setTimeout(() => {
-      console.log("Form submitted:", form);
+      window.open(whatsappUrl, '_blank');
       setIsSubmitting(false);
       setForm({ name: "", email: "", phone: "", message: "" });
-    }, 2000);
+    }, 1000);
   };
 
   return (
@@ -81,8 +102,26 @@ export default function Contact() {
                 </div>
               </div>
 
+              {/* DIRECT WHATSAPP BUTTON */}
+              <div style={{...infoBox, animationDelay: "0.6s"}}>
+                <div style={iconCircle}>
+                  <FaWhatsapp size={22} color="#25D366" />
+                </div>
+                <div>
+                  <h5 style={infoTitle}>Direct WhatsApp</h5>
+                  <p style={infoText}>Message us directly on WhatsApp</p>
+                  <Button 
+                    style={whatsappButtonStyle}
+                    onClick={() => window.open(`https://wa.me/918921915287`, '_blank')}
+                  >
+                    <FaWhatsapp style={{marginRight: "8px"}} />
+                    Open WhatsApp
+                  </Button>
+                </div>
+              </div>
+
               {/* MAP */}
-              <div style={{...mapWrapper, animationDelay: "0.6s"}}>
+              <div style={{...mapWrapper, animationDelay: "0.8s"}}>
                 <iframe
                   title="map"
                   src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3923.053471163819!2d76.17025817401351!3d10.496451164297618!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ba7edf5265e9067%3A0x157110c7bed3d86d!2sSavio%20Home%20Manakody!5e0!3m2!1sen!2sin!4v1764043002716!5m2!1sen!2sin"
@@ -98,12 +137,19 @@ export default function Contact() {
           {/* RIGHT FORM */}
           <Col lg={7}>
             <div style={formCard}>
+            <div style={formHeader}>
+    <h4 style={formTitle}>Contact Us</h4>
+    <p style={formSubtitle}>
+      Fill the form below and we will get back to you shortly.
+    </p>
+  </div>
+
               <Form onSubmit={handleSubmit}>
                 <Form.Group className="mb-4">
-                  <Form.Label style={labelStyle}>Your Name</Form.Label>
+                  <Form.Label style={labelStyle}>Your Name *</Form.Label>
                   <Form.Control
                     type="text"
-                    placeholder="John"
+                    placeholder="Enter your full name"
                     name="name"
                     value={form.name}
                     onChange={handleChange}
@@ -115,10 +161,10 @@ export default function Contact() {
                 <Row>
                   <Col md={6}>
                     <Form.Group className="mb-4">
-                      <Form.Label style={labelStyle}>Email Address</Form.Label>
+                      <Form.Label style={labelStyle}>Email Address *</Form.Label>
                       <Form.Control
                         type="email"
-                        placeholder="john@example.com"
+                        placeholder="your@email.com"
                         name="email"
                         value={form.email}
                         onChange={handleChange}
@@ -132,8 +178,8 @@ export default function Contact() {
                     <Form.Group className="mb-4">
                       <Form.Label style={labelStyle}>Phone Number</Form.Label>
                       <Form.Control
-                        type="text"
-                        placeholder=" +91 89219 15287"
+                        type="tel"
+                        placeholder="+91 89219 15287"
                         name="phone"
                         value={form.phone}
                         onChange={handleChange}
@@ -144,11 +190,11 @@ export default function Contact() {
                 </Row>
 
                 <Form.Group className="mb-4">
-                  <Form.Label style={labelStyle}>Message</Form.Label>
+                  <Form.Label style={labelStyle}>Your Message *</Form.Label>
                   <Form.Control
                     as="textarea"
                     rows={5}
-                    placeholder="Tell us how you'd like to help..."
+                    placeholder="Tell us how you'd like to help or any questions you have..."
                     name="message"
                     value={form.message}
                     onChange={handleChange}
@@ -166,15 +212,20 @@ export default function Contact() {
                   {isSubmitting ? (
                     <>
                       <div className="spinner"></div>
-                      Sending...
+                      Preparing WhatsApp...
                     </>
                   ) : (
                     <>
-                      <FaPaperPlane style={{marginRight: "8px"}} />
-                      Send Message
+                      Submit
                     </>
                   )}
                 </Button>
+
+          <div style={whatsappNote}>
+  <FaWhatsapp size={16} color="#00c9d8" />
+  <span>We will contact you back soon</span>
+</div>
+
               </Form>
             </div>
           </Col>
@@ -208,10 +259,10 @@ export default function Contact() {
             box-shadow: 0 0 0 0 rgba(0, 196, 255, 0.4); 
           }
           70% { 
-            box-shadow: 0 0 0 10px rgba(0, 196, 255, 0); 
+            boxShadow: 0 0 0 10px rgba(0, 196, 255, 0); 
           }
           100% { 
-            box-shadow: 0 0 0 0 rgba(0, 196, 255, 0); 
+            boxShadow: 0 0 0 0 rgba(0, 196, 255, 0); 
           }
         }
 
@@ -243,6 +294,18 @@ export default function Contact() {
           }
           100% { 
             transform: rotate(360deg); 
+          }
+        }
+
+        @keyframes whatsappPulse {
+          0% { 
+            box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.4); 
+          }
+          70% { 
+            box-shadow: 0 0 0 10px rgba(37, 211, 102, 0); 
+          }
+          100% { 
+            box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); 
           }
         }
 
@@ -324,7 +387,7 @@ const leftCard = {
 
 const infoBox = {
   display: "flex",
-  alignItems: "center",
+  alignItems: "flex-start",
   marginBottom: "30px",
   animation: "fadeInUp 0.7s ease",
   animationFillMode: "both"
@@ -341,7 +404,8 @@ const iconCircle = {
   marginRight: "18px",
   boxShadow: "0 8px 20px rgba(0, 196, 255, 0.25)",
   transition: "all 0.3s ease",
-  cursor: "pointer"
+  cursor: "pointer",
+  flexShrink: 0
 };
 
 const infoTitle = {
@@ -369,10 +433,31 @@ const formCard = {
   height: "100%"
 };
 
+const formHeader = {
+  textAlign: "center",
+  marginBottom: "30px",
+  paddingBottom: "20px",
+  borderBottom: "2px solid #f0f0f0"
+};
+
+const formTitle = {
+  fontSize: "1.5rem",
+  fontWeight: "700",
+  color: "#000000",
+  margin: "15px 0 8px 0"
+};
+
+const formSubtitle = {
+  color: "#666666",
+  fontSize: "0.95rem",
+  margin: 0,
+  lineHeight: "1.5"
+};
+
 const mapWrapper = {
   marginTop: "20px",
   width: "100%",
-  height: "320px",
+  height: "280px",
   borderRadius: "12px",
   overflow: "hidden",
   boxShadow: "0 10px 30px rgba(0,0,0,0.15)",
@@ -400,16 +485,47 @@ const inputStyle = {
 };
 
 const submitBtn = {
-  background: "linear-gradient(135deg, #00c4ff 0%, #0099cc 100%)",
+  background: "linear-gradient(135deg, #00e5ff 0%, #00c9d8 40%, #00a8c4 100%)",
   border: "none",
   padding: "16px 30px",
   borderRadius: "12px",
   fontWeight: "600",
   width: "100%",
   fontSize: "1.1rem",
-  color: "#000000",
-  boxShadow: "0 8px 25px rgba(0, 196, 255, 0.35)",
-  transition: "all 0.3s ease",
+  color: "#00363d",
+  boxShadow: "0 8px 28px rgba(0, 234, 255, 0.45)",
+  transition: "all 0.35s ease",
   position: "relative",
-  overflow: "hidden"
+  overflow: "hidden",
+  marginBottom: "15px",
+  cursor: "pointer",
+};
+
+
+
+const whatsappButtonStyle = {
+  background: "linear-gradient(135deg, #25D366 0%, #128C7E 100%)",
+  border: "none",
+  padding: "8px 16px",
+  borderRadius: "8px",
+  fontWeight: "600",
+  fontSize: "0.9rem",
+  color: "#ffffff",
+  boxShadow: "0 4px 15px rgba(37, 211, 102, 0.3)",
+  transition: "all 0.3s ease",
+  marginTop: "8px"
+};
+
+const whatsappNote = {
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  gap: "8px",
+  fontSize: "0.85rem",
+  color: "#666666",
+  textAlign: "center",
+  padding: "10px",
+  background: "#f8fff9",
+  borderRadius: "8px",
+  border: "1px solid #e0f7e9"
 };

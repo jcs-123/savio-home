@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
+import img09 from "../assets/IMG-20251127-WA0004.jpg";
 
 export default function About() {
   const [expanded, setExpanded] = useState(false);
@@ -84,7 +85,7 @@ export default function About() {
                 }}
               >
                 <img
-                  src="https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?auto=format&q=80&fit=crop&w=1000"
+                  src={img09}
                   alt="Children at Savio Home"
                   style={{
                     width: "100%",
