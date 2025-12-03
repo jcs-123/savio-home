@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Container, Row, Col, Modal, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
+
 import img1 from "../assets/IMG_20251011_171729983.jpg";
 import img2 from "../assets/IMG_20251124_065547407.jpg";
 import img3 from "../assets/IMG_20251124_070609327.jpg";
@@ -54,20 +55,18 @@ import img49 from "../assets/IMG-20251127-WA0007.jpg";
 
 export default function FullGalleryPage() {
 
- const images = [
-  img1, img2,
-   img3, img4, img5,
-  img6, img7, img8, img9, img10,
-  img11, img12, img13, img14, img15,
-  img16, img17, img18, img19, img20,
-  img21, img22, img23, img24, img25,
-  img26, img27, img28, img29, img30,
-  img31, img32, img33, img34, img35,
-  img36, img37, img38, img39, img40,
-  img41, img42, img43, img44, img45,
-  img47, img48, img49,
-];
-
+  const images = [
+    img1, img2, img3, img4, img5,
+    img6, img7, img8, img9, img10,
+    img11, img12, img13, img14, img15,
+    img16, img17, img18, img19, img20,
+    img21, img22, img23, img24, img25,
+    img26, img27, img28, img29, img30,
+    img31, img32, img33, img34, img35,
+    img36, img37, img38, img39, img40,
+    img41, img42, img43, img44, img45,
+    img47, img48, img49,
+  ];
 
   const [selectedIndex, setSelectedIndex] = useState(null);
   const cardRefs = useRef([]);
@@ -100,51 +99,20 @@ export default function FullGalleryPage() {
     setSelectedIndex((prev) => (prev < images.length - 1 ? prev + 1 : 0));
   };
 
-  // Function to handle video button click
   const handleViewVideos = () => {
-    // Replace with your actual Google Drive link
     window.open("https://drive.google.com/drive/folders/1TRnArh38lEwEeyLEJTKo-_dSiZLzoa-N", "_blank");
   };
 
   return (
     <>
-      {/* TOP RIGHT BUTTONS */}
-      <div style={{ 
-        width: "100%", 
-        padding: "20px", 
-        display: "flex", 
-        justifyContent: "space-between",
-        alignItems: "center",
-        flexWrap: "wrap",
-        gap: "15px"
+      {/* TOP AREA → ONLY SHOW LESS BUTTON */}
+      <div style={{
+        width: "100%",
+        padding: "20px",
+        display: "flex",
+        justifyContent: "flex-end",
+        alignItems: "center"
       }}>
-        {/* VIEW VIDEOS BUTTON - LEFT SIDE */}
-        <Button
-          onClick={handleViewVideos}
-          style={{
-            background: "linear-gradient(45deg, #FF0080, #FF8C00)",
-            color: "white",
-            border: "none",
-            padding: "10px 30px",
-            borderRadius: "40px",
-            fontWeight: 600,
-            fontSize: "0.95rem",
-            boxShadow: "0 4px 15px rgba(255, 0, 128, 0.3)",
-            transition: "all 0.3s ease",
-          }}
-          onMouseEnter={(e) => {
-            e.target.style.transform = "scale(1.05)";
-            e.target.style.boxShadow = "0 6px 20px rgba(255, 0, 128, 0.4)";
-          }}
-          onMouseLeave={(e) => {
-            e.target.style.transform = "scale(1)";
-            e.target.style.boxShadow = "0 4px 15px rgba(255, 0, 128, 0.3)";
-          }}
-        >
-          🎬 View Videos
-        </Button>
-
-        {/* SHOW LESS BUTTON - RIGHT SIDE */}
         <Link to="/">
           <Button
             style={{
@@ -172,7 +140,7 @@ export default function FullGalleryPage() {
       </div>
 
       {/* FULL GALLERY GRID */}
-      <Container style={{ padding: "20px 0 60px" }}>
+      <Container style={{ padding: "20px 0 10px" }}>
         <Row className="g-4">
           {images.map((src, index) => (
             <Col lg={4} md={6} sm={12} key={index}>
@@ -199,14 +167,53 @@ export default function FullGalleryPage() {
                     borderRadius: "12px",
                     transition: "transform 0.4s ease",
                   }}
-                  onMouseEnter={(e) => (e.target.style.transform = "scale(1.1)")}
-                  onMouseLeave={(e) => (e.target.style.transform = "scale(1)")}
+                  onMouseEnter={(e) =>
+                    (e.target.style.transform = "scale(1.1)")
+                  }
+                  onMouseLeave={(e) =>
+                    (e.target.style.transform = "scale(1)")
+                  }
                 />
               </div>
             </Col>
           ))}
         </Row>
       </Container>
+
+      {/* BOTTOM → VIEW VIDEOS BUTTON */}
+      <div
+        style={{
+          width: "100%",
+          padding: "30px 0 60px",
+          display: "flex",
+          justifyContent: "center",
+        }}
+      >
+        <Button
+          onClick={handleViewVideos}
+          style={{
+            background: "linear-gradient(45deg, #FF0080, #FF8C00)",
+            color: "white",
+            border: "none",
+            padding: "12px 35px",
+            borderRadius: "40px",
+            fontWeight: 600,
+            fontSize: "1rem",
+            boxShadow: "0 4px 15px rgba(255, 0, 128, 0.3)",
+            transition: "all 0.3s ease",
+          }}
+          onMouseEnter={(e) => {
+            e.target.style.transform = "scale(1.05)";
+            e.target.style.boxShadow = "0 6px 20px rgba(255, 0, 128, 0.4)";
+          }}
+          onMouseLeave={(e) => {
+            e.target.style.transform = "scale(1)";
+            e.target.style.boxShadow = "0 4px 15px rgba(255, 0, 128, 0.3)";
+          }}
+        >
+          🎬 View Videos
+        </Button>
+      </div>
 
       {/* MODAL VIEWER */}
       <Modal
@@ -265,20 +272,13 @@ export default function FullGalleryPage() {
         </Modal.Body>
       </Modal>
 
+      {/* RESPONSIVE FIXES */}
       <style>{`
         @media (max-width: 768px) {
           img { height: 220px !important; }
-          div[style*="justify-content: space-between"] {
-            justify-content: center !important;
-            text-align: center;
-          }
         }
         @media (max-width: 576px) {
           img { height: 180px !important; }
-          div[style*="justify-content: space-between"] {
-            flex-direction: column;
-            gap: 10px;
-          }
         }
       `}</style>
     </>

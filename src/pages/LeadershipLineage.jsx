@@ -21,129 +21,121 @@ export default function LeadershipLineage() {
   const [isMobile, setIsMobile] = useState(false);
   const cardRefs = useRef([]);
 
-  const directors = [
-    {
-      era: "The Foundation",
-      name: "Rev. Fr. Ignatius Chalissery",
-      period: "1975 – 1978",
-      details: "The first Director who established the Home.",
-      delay: 0.1,
-      photo: l5
-    },
-    {
-      era: "The Expansion",
-      name: "Rev. Fr. Chacko Parayil",
-      period: "1978 – 1995",
-      details: "Expanded the dining hall and overall infrastructure.",
-      delay: 0.2,
-      photo: l14
-    },
-    {
-      era: "The Transition",
-      name: "Rev. Fr. Simon Thermadom",
-      period: "1996 – 1998",
-      details: "Provided leadership between long tenures.",
-      delay: 0.3,
-      photo: l3
-    },
-    {
-      era: "The Jubilee",
-      name: "Rev. Fr. Davis Panakulam",
-      period: "1999 – 2001",
-      details: "Led the Home during its Silver Jubilee celebration.",
-      delay: 0.4,
-      photo: l2
-    },
-    {
-      era: "The New Building",
-      name: "Rev. Fr. Jolly Chiramel",
-      period: "2002 – 2008",
-      details: "Oversaw the construction & blessing of the children's building.",
-      delay: 0.5,
-      photo: l7
-    },
-    {
-      era: "The Shifting Tides",
-      name: "Rev. Fr. Varghese Knajirathingal",
-      period: "2008 – 2011",
-      details: "Succeeded Fr. Jolly during transition.",
-      delay: 0.6,
-      photo: l13
-    },
-    {
-      era: "The Shifting Tides",
-      name: "Rev. Fr. Johnson Olakengil",
-      period: "2011 – 2013",
-      details: "Two-year leadership period before next succession.",
-      delay: 0.7,
-      photo: l6
-    },
-    {
-      era: "The Shifting Tides",
-      name: "Rev. Fr. Raphy Thattil",
-      period: "Feb 2013",
-      details: "Served briefly before next appointment.",
-      delay: 0.8,
-      photo: l11
-    },
-    {
-      era: "The Shifting Tides",
-      name: "Rev. Fr. Justin Thadathil",
-      period: "2013 – 2016",
-      details: "Director until early 2016.",
-      delay: 0.9,
-      photo: l8
-    },
-    {
-      era: "Loss & Return",
-      name: "Rev. Fr. Paul Vattakuzhy",
-      period: "Feb – Jun 2016",
-      details: "His tenure ended with his passing in June 2016.",
-      delay: 1.0,
-      photo: l10
-    },
-    {
-      era: "Loss & Return",
-      name: "Rev. Fr. Geo Kadavi (1st Term)",
-      period: "2016",
-      details: "Took charge following Fr. Paul's demise.",
-      delay: 1.1,
-      photo: l4
-    },
-    {
-      era: "Loss & Return",
-      name: "Rev. Fr. Nyson Alenthanth",
-      period: "2016 – 2017",
-      details: "Served brief term as Director.",
-      delay: 1.2,
-      photo: l9
-    },
-    {
-      era: "Loss & Return",
-      name: "Rev. Fr. Geo Kadavi (2nd Term)",
-      period: "2017 – 2019",
-      details: "Returned; oversaw land registration for Parish Church.",
-      delay: 1.3,
-      photo: l4
-    },
-    {
-      era: "The Cardinal's Visit",
-      name: "Rev. Fr. Antony Kollannur",
-      period: "2019 – 2025",
-      details: "Director during Cardinal Alencherry's visit; renovated the chapel & built children's park.",
-      delay: 1.4,
-      photo: l1
-    },
-    {
-      era: "The Present",
-      name: "Rev. Fr. Sijo Muringathery",
-      period: "2025 – Present",
-      details: "Current Director In-Charge.",
-      delay: 1.5,
-      photo: l12,
-      current: true
-    },
-  ];
+ const directors = [
+  {
+    era: "The Present",
+    name: "Rev. Fr. Sijo Muringathery",
+    period: "2025 – Present",
+    details: "Current Director In-Charge.",
+    delay: 1.5,
+    photo: l12,
+    current: true
+  },
+  {
+    era: "The Cardinal's Visit",
+    name: "Rev. Fr. Antony Kollannur",
+    period: "2019 – 2025",
+    details: "Director during Cardinal Alencherry's visit; renovated the chapel & built children's park.",
+    delay: 1.4,
+    photo: l1
+  },
+  {
+    name: "Rev. Fr. Geo Kadavi (2nd Term)",
+    period: "2017 – 2019",
+    details: "Returned; oversaw land registration for Parish Church.",
+    delay: 1.3,
+    photo: l4
+  },
+  {
+    name: "Rev. Fr. Nyson Alenthanath",
+    period: "2016 – 2017",
+    details: "Served brief term as Director.",
+    delay: 1.2,
+    photo: l9
+  },
+  {
+    name: "Rev. Fr. Geo Kadavi (1st Term)",
+    period: "2016",
+    details: "Took charge following Fr. Paul's demise.",
+    delay: 1.1,
+    photo: l4
+  },
+  {
+    name: "Rev. Fr. Paul Vattakuzhy",
+    period: "Feb – Jun 2016",
+    details: "His tenure ended with his passing in June 2016.",
+    delay: 1.0,
+    photo: l10
+  },
+  {
+    name: "Rev. Fr. Justin Thadathil",
+    period: "2013 – 2016",
+    details: "Director until early 2016.",
+    delay: 0.9,
+    photo: l8
+  },
+  {
+    name: "Rev. Fr. Raphy Thattil",
+    period: "Feb 2013",
+    details: "Served briefly before next appointment.",
+    delay: 0.8,
+    photo: l11
+  },
+  {
+    name: "Rev. Fr. Johnson Olakkengil",
+    period: "2011 – 2013",
+    details: "Two-year leadership period before next succession.",
+    delay: 0.7,
+    photo: l6
+  },
+  {
+    name: "Rev. Fr. Varghese Kanjirathingal",
+    period: "2008 – 2011",
+    details: "Succeeded Fr. Jolly during transition.",
+    delay: 0.6,
+    photo: l13
+  },
+  {
+    era: "The New Building",
+    name: "Rev. Fr. Jolly Chiramel",
+    period: "2002 – 2008",
+    details: "Oversaw the construction & blessing of the children's building.",
+    delay: 0.5,
+    photo: l7
+  },
+  {
+    name: "Rev. Fr. Davis Panamkulam",
+    period: "1999 – 2001",
+    details: "Led the Home during its Silver Jubilee celebration.",
+    delay: 0.4,
+    photo: l2
+  },
+  {
+    era: "The Transition",
+    name: "Rev. Fr. Saimon Thermadom",
+    period: "1996 – 1998",
+    details: "Provided leadership during transition years.",
+    delay: 0.3,
+    photo: l3
+  },
+  {
+    era: "The Expansion",
+    name: "Rev. Fr. Chacko Parayil",
+    period: "1978 – 1995",
+    details: "Expanded the dining hall and overall infrastructure.",
+    delay: 0.2,
+    photo: l14
+  },
+  {
+    era: "The Foundation",
+    name: "Rev. Fr. Ignatius Chalissery",
+    period: "1975 – 1978",
+    details: "The first Director who established the Home.",
+    delay: 0.1,
+    photo: l5
+  }
+];
+
 
   // Sort by year (most recent first)
   const sortedDirectors = [...directors].sort((a, b) => {

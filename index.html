@@ -3,50 +3,58 @@
 
 <head>
   <meta charset="UTF-8" />
+  <meta http-equiv="content-language" content="en-IN" />
 
   <!-- Mobile Responsive -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <!-- Title -->
-  <title>Savio Home</title>
+  <title>Savio Home – Manakody | Hope • Care • Shelter</title>
 
   <!-- Favicon -->
-  <link rel="icon" type="image/png" href="/src/assets/logo.png" />
+  <link rel="icon" type="image/png" href="/logo.png" />
 
-  <!-- Theme Color (Android Chrome top bar CYAN) -->
+  <!-- Canonical -->
+  <link rel="canonical" href="https://saviohomemanakody.org" />
+
+  <!-- Theme Color -->
   <meta name="theme-color" content="#00eaff" />
 
-  <!-- iOS Safari top bar color -->
+  <!-- iOS -->
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
 
   <!-- SEO Meta -->
   <meta name="description"
-    content="Savio Home, Manakody – Providing love, care, shelter, nutritious food, education, and emotional support for children since 1975. Donate • Volunteer • Sponsor a Meal." />
+    content="Savio Home, Manakody – Providing love, care, shelter, nutritious food, education, and emotional support for children since 1975." />
+
   <meta name="keywords"
-    content="Savio Home, Manakody, orphanage thrissur, charity thrissur, children home thrissur, donate orphanage, child care Kerala, volunteer Kerala, Archdiocese Thrissur" />
-  <meta name="author" content="Savio Home, Manakody" />
+    content="Savio Home, Manakody, orphanage, charity thrissur, children home, donate Kerala, sponsor meal, child care Kerala, Archdiocese Thrissur" />
 
-  <!-- Open Graph (Facebook / WhatsApp Preview) -->
+  <meta name="author" content="Savio Home" />
+
+  <!-- Open Graph -->
   <meta property="og:title" content="Savio Home – A Loving Home for Children" />
+  <meta property="og:site_name" content="Savio Home Manakody" />
   <meta property="og:description"
-    content="A safe and nurturing home providing care, education & nourishment for children. Join hands—Donate, Volunteer, Sponsor a Meal." />
-
+    content="A safe and nurturing home providing care, education & nourishment for children. Donate • Volunteer • Sponsor a Meal." />
+  <meta property="og:image" content="https://saviohomemanakody.org/og-image.jpg" />
+  <meta property="og:url" content="https://saviohomemanakody.org" />
   <meta property="og:type" content="website" />
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Savio Home – Hope • Care • Shelter" />
   <meta name="twitter:description"
-    content="A safe and nurturing home for children in need. Help us create better futures." />
-  <meta name="twitter:image" content="/src/assets/logo.png" />
+    content="A safe and nurturing home for children in need." />
+  <meta name="twitter:image" content="https://saviohomemanakody.org/og-image.jpg" />
 
-  <!-- Fonts + Speed Optimization -->
+  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet" />
 
-  <!-- Global CSS Reset + Theme Tuning -->
+  <!-- Global CSS -->
   <style>
     body {
       margin: 0;
@@ -54,33 +62,43 @@
       background: #ffffff;
     }
 
-    /* Highlight selection */
     ::selection {
       background: #00eaff;
       color: #fff;
     }
 
-    /* Smooth Page Scroll */
     html {
       scroll-behavior: smooth;
     }
 
-    /* Remove iOS grey tap highlight */
     * {
       -webkit-tap-highlight-color: transparent;
     }
   </style>
 
+  <!-- JSON-LD (Google Structured Data) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "NGO",
+    "name": "Savio Home Manakody",
+    "url": "https://saviohomemanakody.org",
+    "logo": "https://saviohomemanakody.org/logo.png",
+    "description": "A loving home providing care, education and nourishment to children since 1975.",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Manakody",
+      "addressRegion": "Kerala",
+      "addressCountry": "India"
+    }
+  }
+  </script>
+
 </head>
 
 <body>
-
-  <!-- React Root -->
   <div id="root"></div>
-
-  <!-- Vite Entry Script -->
   <script type="module" src="/src/main.jsx"></script>
-
 </body>
 
 </html>

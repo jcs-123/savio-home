@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+
+# Prevent indexing dev files
+Disallow: /node_modules/
+Disallow: /src/
+
+# Sitemap Location
+Sitemap: https://saviohomemanakody.org/sitemap.xml

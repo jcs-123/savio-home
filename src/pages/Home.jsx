@@ -643,7 +643,7 @@ export default function Home({ openModal }) {
       {/* Current Capacity */}
       <Col lg={3} md={6} className="mb-4">
         <div style={styles.statCard} className="stat-card-hover">
-          <div style={styles.statNumber}>50+</div>
+          <div style={styles.statNumber}>40</div>
           <div style={styles.statText}>Children Currently Residing</div>
         </div>
       </Col>
