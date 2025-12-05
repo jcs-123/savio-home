@@ -122,13 +122,34 @@ export default function GalleryPage() {
           </div>
 
           {/* VIEW MORE BUTTON */}
-          {!isFullGallery && (
-            <div style={styles.buttonContainer}>
-              <Link to="/gallery">
-                <Button as="span" style={styles.button}>View More</Button>
-              </Link>
-            </div>
-          )}
+        {!isFullGallery && (
+  <div style={styles.buttonContainer}>
+    
+    {/* VIEW MORE BUTTON */}
+    <Link to="/gallery">
+      <Button as="span" style={styles.button}>View More</Button>
+    </Link>
+
+    {/* EXTRA BUTTON BELOW VIEW MORE */}
+    <div style={{ marginTop: "20px" }}>
+      <Button
+        as="a"
+        href="https://drive.google.com/drive/folders/1TRnArh38lEwEeyLEJTKo-_dSiZLzoa-N"
+        target="_blank"
+        style={{
+          ...styles.button,
+          background: "black",
+          color: "#00eaff",
+          border: "2px solid #00eaff",
+        }}
+      >
+        🎬 View Videos
+      </Button>
+    </div>
+
+  </div>
+)}
+
         </Container>
       </section>
 
